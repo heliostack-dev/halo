@@ -10,7 +10,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 # Halo — agent notes
 
-Halo is the reference app for the [Heliostack skills](https://github.com/heliostack/skills). Before any task, load the `heliostack` skill (or read its SKILL.md) and follow the skill it routes you to. The short version:
+Halo is the reference app for the [Heliostack skills](https://github.com/heliostack-dev/skills). Before any task, load the `heliostack` skill (or read its SKILL.md) and follow the skill it routes you to. The short version:
 
 - **Stack**: Next.js 16.3 (Cache Components, Partial Prefetching, typed routes) · React 19.3 · Postgres via `postgres` (postgres.js, raw tagged SQL) · `zod` · TypeScript 7. Runtime deps are exactly: next, react, react-dom, postgres, zod. Ask before adding any other.
 - **Layout**: routes in `src/app` stay thin; features in `src/features/<f>/{types.ts,server/repo.ts,server/queries.ts,actions.ts,components/}`; infrastructure in `src/server`; pure utils in `src/lib`; design system in `src/ui` (read `src/ui/CATALOG.md` first).

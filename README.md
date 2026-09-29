@@ -4,7 +4,7 @@
 
 # Halo
 
-**A realtime social network, built by AI agents with the [Heliostack skills](https://github.com/heliostack/skills).**
+**A realtime social network, built by AI agents with the [Heliostack skills](https://github.com/heliostack-dev/skills).**
 
 [![Next.js 16.3](https://img.shields.io/badge/Next.js-16.3-000?logo=nextdotjs&logoColor=white)](https://nextjs.org)
 [![React 19.3](https://img.shields.io/badge/React-19.3-149eca?logo=react&logoColor=white)](https://react.dev)
@@ -151,7 +151,7 @@ Vercel + Neon Postgres (Vercel Marketplace). Set:
 | `DATABASE_URL_UNPOOLED` | Direct connection — enables cross-instance realtime (`LISTEN`) and migrations |
 | `SESSION_SECRET` | 32+ random bytes; rotating it signs everyone out |
 
-Step-by-step in the [`deploy-vercel`](https://github.com/heliostack/skills/blob/main/skills/deploy-vercel/SKILL.md) skill.
+Step-by-step in the [`deploy-vercel`](https://github.com/heliostack-dev/skills/blob/main/skills/deploy-vercel/SKILL.md) skill.
 
 ## License
 

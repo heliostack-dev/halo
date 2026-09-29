@@ -3,5 +3,5 @@
   "stack": { "next": "16.3", "react": "19.3", "db": "postgres", "validation": "zod", "typescript": "7" },
   "features": ["auth", "posts", "timeline", "profiles", "follows", "notifications", "messages", "search", "realtime", "settings"],
   "designSystem": "design-system.json",
-  "skills": "https://github.com/heliostack/skills"
+  "skills": "https://github.com/heliostack-dev/skills"
 }
