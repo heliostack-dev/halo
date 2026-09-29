@@ -6,7 +6,7 @@
 
 **A realtime social network, built by AI agents with the [Heliostack skills](https://github.com/heliostack-dev/skills).**
 
-**[Live demo → halo-sh031224-s-pro.vercel.app](https://halo-sh031224-s-pro.vercel.app)** &nbsp;·&nbsp; browse signed-out, or sign in as `demo` / `halo-demo`
+**[Live demo → heliostack-halo.vercel.app](https://heliostack-halo.vercel.app)** &nbsp;·&nbsp; browse signed-out, or sign in as `demo` / `halo-demo`
 
 [![Next.js 16.3](https://img.shields.io/badge/Next.js-16.3-000?logo=nextdotjs&logoColor=white)](https://nextjs.org)
 [![React 19.3](https://img.shields.io/badge/React-19.3-149eca?logo=react&logoColor=white)](https://react.dev)
@@ -16,7 +16,7 @@
 
 <br />
 
-<a href="https://halo-sh031224-s-pro.vercel.app"><img src="docs/screenshots/home-dark.png" alt="Halo home timeline" width="100%" /></a>
+<a href="https://heliostack-halo.vercel.app"><img src="docs/screenshots/home-dark.png" alt="Halo home timeline" width="100%" /></a>
 
 </div>
 
