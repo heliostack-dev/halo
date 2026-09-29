@@ -1,0 +1,43 @@
+{
+  "name": "halo",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "dependencies": {
+    "next": "16.3.6",
+    "postgres": "3.4.9",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.8",
+    "@electric-sql/pglite-socket": "^0.2.11",
+    "@types/node": "^26.6.3",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "typescript": "^7.0.2"
+  },
+  "description": "Halo — a realtime social network built with the Heliostack skills (Next.js 16 + React 19.3, near-zero dependencies).",
+  "imports": {
+    "#/*": "./src/*"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "dev:db": "node scripts/dev-db.ts",
+    "build": "next build",
+    "start": "next start",
+    "db:migrate": "node --env-file-if-exists=.env.local scripts/migrate.ts",
+    "db:seed": "node --env-file-if-exists=.env.local scripts/seed.ts",
+    "db:reset": "node --env-file-if-exists=.env.local scripts/migrate.ts --reset && pnpm db:seed",
+    "ds:generate": "node design/theme.mjs generate",
+    "ds:check": "node design/theme.mjs check && node design/check-tokens.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test \"src/**/*.test.ts\"",
+    "e2e": "node --test \"e2e/**/*.test.ts\"",
+    "verify": "pnpm typecheck && pnpm ds:check && pnpm test && pnpm build"
+  }
+}

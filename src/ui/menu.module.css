@@ -1,0 +1,49 @@
+@layer components {
+  .trigger { display: inline-flex; align-items: center; border-radius: var(--radius-full); }
+  .iconBubble {
+    display: grid; place-items: center;
+    width: var(--size-control-sm); height: var(--size-control-sm);
+    border-radius: var(--radius-full);
+    color: var(--muted-foreground);
+    transition: background-color var(--duration-fast) var(--ease-standard);
+  }
+  :hover > .iconBubble { background: var(--primary-subtle); color: var(--primary); }
+
+  .menu {
+    min-width: 14rem;
+    padding: var(--space-1) 0;
+    border-radius: var(--radius-lg);
+    background: var(--popover);
+    color: var(--popover-foreground);
+    box-shadow: var(--shadow-lg), 0 0 0 1px var(--border);
+    opacity: 0;
+    scale: 0.96;
+    transition: opacity var(--duration-fast) var(--ease-standard), scale var(--duration-fast) var(--ease-standard),
+      overlay var(--duration-fast) allow-discrete, display var(--duration-fast) allow-discrete;
+  }
+  .menu:popover-open { opacity: 1; scale: 1; }
+  @starting-style { .menu:popover-open { opacity: 0; scale: 0.96; } }
+
+  @supports (anchor-name: --a) {
+    .menu { margin: var(--space-1) 0; position-try-fallbacks: flip-block, flip-inline; }
+    .end { position-area: block-end span-inline-start; transform-origin: top right; }
+    .start { position-area: block-end span-inline-end; transform-origin: top left; }
+  }
+  @supports not (anchor-name: --a) {
+    .menu { inset: auto 0 0 0; width: 100%; margin: 0; border-radius: var(--radius-xl) var(--radius-xl) 0 0; padding-bottom: var(--space-6); }
+  }
+
+  .item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    font-weight: var(--weight-semibold);
+    text-align: start;
+  }
+  .item:hover, .item:focus-visible { background: var(--accent); outline: none; }
+  .item[aria-disabled='true'] { opacity: 0.5; cursor: not-allowed; }
+  .danger { color: var(--destructive); }
+  .separator { border: 0; border-top: 1px solid var(--border); margin: var(--space-1) 0; }
+}

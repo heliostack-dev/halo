@@ -1,0 +1,35 @@
+@layer components {
+  .root {
+    --_tone: var(--foreground);
+    --_tint: var(--accent);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    color: var(--muted-foreground);
+    font-size: var(--text-sm);
+    font-variant-numeric: tabular-nums;
+    border-radius: var(--radius-full);
+  }
+  .bubble {
+    display: grid;
+    place-items: center;
+    border-radius: var(--radius-full);
+    transition: background-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard);
+  }
+  .sm .bubble { width: var(--size-control-sm); height: var(--size-control-sm); }
+  .md .bubble { width: var(--size-control-sm); height: var(--size-control-sm); }
+  .lg .bubble { width: var(--size-control-md); height: var(--size-control-md); }
+
+  .neutral { color: var(--foreground); }
+  .primary { --_tone: var(--primary); --_tint: var(--primary-subtle); }
+  .like { --_tone: oklch(62% 0.22 10); --_tint: color-mix(in oklch, oklch(62% 0.22 10) 14%, transparent); } /* ds-allow: brand-independent like colour */
+  .repost { --_tone: var(--success); --_tint: color-mix(in oklch, var(--success) 14%, transparent); }
+
+  .root:hover, .root:focus-visible, .active { color: var(--_tone); }
+  .root:hover .bubble, .root:focus-visible .bubble { background: var(--_tint); }
+  .root:focus-visible { outline: none; }
+  .root:focus-visible .bubble { outline: 2px solid var(--ring); }
+  .root:disabled { opacity: 0.5; cursor: not-allowed; }
+  .active .bubble { animation: pop var(--duration-slow) var(--ease-emphasized); }
+  @keyframes pop { 50% { scale: 1.2; } }
+}

@@ -1,0 +1,30 @@
+@layer components {
+  /* Floating-label field: the label sits inside the control and moves up when filled/focused. */
+  .field { position: relative; display: grid; gap: var(--space-1); }
+  .control {
+    width: 100%;
+    min-height: calc(var(--size-control-lg) + var(--space-3));
+    padding: calc(var(--space-5) + var(--space-1)) var(--space-3) var(--space-2);
+    border: 1px solid var(--input);
+    border-radius: var(--radius-sm);
+    background: var(--background);
+    transition: border-color var(--duration-fast) var(--ease-standard), box-shadow var(--duration-fast) var(--ease-standard);
+  }
+  .control:focus { outline: none; border-color: var(--ring); box-shadow: 0 0 0 1px var(--ring); }
+  .control[aria-invalid='true'] { border-color: var(--destructive); }
+  .textarea { resize: vertical; min-height: 7rem; field-sizing: content; }
+  .label {
+    position: absolute;
+    top: var(--space-4);
+    inset-inline-start: var(--space-3);
+    color: var(--muted-foreground);
+    pointer-events: none;
+    transform-origin: left top;
+    transition: translate var(--duration-fast) var(--ease-standard), scale var(--duration-fast) var(--ease-standard), color var(--duration-fast);
+  }
+  .control:focus + .label, .control:not(:placeholder-shown) + .label { translate: 0 calc(var(--space-2) * -1); scale: 0.8; }
+  .control:focus + .label { color: var(--primary); }
+  .counter { position: absolute; top: var(--space-2); inset-inline-end: var(--space-3); color: var(--muted-foreground); font-size: var(--text-xs); }
+  .hint { color: var(--muted-foreground); font-size: var(--text-sm); }
+  .error { color: var(--destructive); font-size: var(--text-sm); }
+}
