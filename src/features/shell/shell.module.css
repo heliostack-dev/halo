@@ -157,5 +157,7 @@
     .nav > :nth-child(n + 5) { display: none; }
     .navLink[aria-current='page'] { background: none; }
     .sidebar .postButton { position: fixed; right: var(--space-4); bottom: calc(var(--size-control-lg) + var(--space-6)); width: var(--space-14, 3.5rem); height: var(--space-14, 3.5rem); margin: 0; box-shadow: var(--shadow-lg); } /* ds-allow: FAB size */
+    /* Signed-out visitors see the signup banner there instead; composing needs an account anyway. */
+    :global(body:has([data-signup-banner])) .sidebar .postButton { display: none; }
   }
 }

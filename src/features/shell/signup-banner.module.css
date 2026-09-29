@@ -1,0 +1,33 @@
+@layer reset, tokens, base, components, utilities;
+
+@layer components {
+  .spacer { height: calc(var(--size-control-lg) + var(--space-6)); }
+  .banner {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: var(--z-header);
+    background: color-mix(in oklch, var(--background) 82%, transparent);
+    backdrop-filter: blur(12px) saturate(1.5);
+    border-top: 1px solid var(--border);
+  }
+  .inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    max-width: calc(var(--layout-content) + var(--layout-rail));
+    margin-inline: auto;
+    padding: var(--space-3) var(--space-5);
+  }
+  .text { display: grid; min-width: 0; }
+  .text strong { font-size: var(--text-lg); line-height: var(--leading-lg); font-weight: var(--weight-bold); }
+  .text span { font-size: var(--text-sm); line-height: var(--leading-sm); color: var(--muted-foreground); }
+  .actions { display: flex; gap: var(--space-3); flex: none; }
+
+  @media (width < 36rem) {
+    .banner { bottom: calc(var(--size-control-lg) + var(--space-2)); }
+    .text span { display: none; }
+    .text strong { font-size: var(--text-sm); line-height: var(--leading-sm); }
+    .actions { gap: var(--space-2); }
+  }
+}

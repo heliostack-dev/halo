@@ -3,8 +3,9 @@ import { NextResponse, type NextRequest } from 'next/server'
 // Optimistic routing only: checks that a session cookie exists, never that it is valid.
 // Real authorization happens next to the data (requireViewer / getViewer).
 const SESSION_COOKIE = 'hs_session'
-const PRIVATE = ['/home', '/notifications', '/messages', '/bookmarks', '/settings', '/compose']
-const GUEST_ONLY = ['/', '/login', '/signup']
+// /home (For you), profiles, posts, explore and hashtags are public; these need an account.
+const PRIVATE = ['/home/following', '/notifications', '/messages', '/bookmarks', '/settings', '/compose']
+const GUEST_ONLY = ['/login', '/signup']
 
 export function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl

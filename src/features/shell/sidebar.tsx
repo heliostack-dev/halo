@@ -60,13 +60,7 @@ async function ProfileLink() {
 
 async function Account() {
   const viewer = await getViewer()
-  if (!viewer) {
-    return (
-      <div className={styles.signedOut}>
-        <Link href="/login" className={buttonStyles({ variant: 'outline', block: true })}>Sign in</Link>
-        <Link href="/signup" className={buttonStyles({ variant: 'inverted', block: true })}>Create account</Link>
-      </div>
-    )
-  }
+  // Signed-out visitors get the SignupBanner instead of an account block.
+  if (!viewer) return null
   return <AccountMenu viewer={viewer} />
 }

@@ -40,5 +40,5 @@ export async function loginAction(_prev: ActionState, formData: FormData): Promi
 
 export async function logoutAction(): Promise<void> {
   await destroySession()
-  redirect('/login')
+  redirect('/home')
 }

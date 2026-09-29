@@ -1,4 +1,6 @@
+import { Suspense } from 'react'
 import { RealtimeProvider } from '#/features/realtime/realtime.tsx'
+import { SignupBanner } from '#/features/shell/signup-banner.tsx'
 import { Sidebar } from '#/features/shell/sidebar.tsx'
 import { Rail } from '#/features/shell/rail.tsx'
 import styles from '#/features/shell/shell.module.css'
@@ -17,6 +19,9 @@ export default function AppLayout({ children, modal }: LayoutProps<'/'>) {
         <Rail />
       </div>
       {modal}
+      <Suspense>
+        <SignupBanner />
+      </Suspense>
     </RealtimeProvider>
   )
 }

@@ -25,6 +25,7 @@ No ORM, no auth SDK, no UI kit, no state library, no data-fetching library, no a
 - **Messages**: 1:1 DMs, optimistic send, live updates, read receipts, IME-safe Enter to send
 - **Explore**: full-text post search, people search, trends, hashtag pages
 - **Settings**: 7 themes × light/dark/system, profile editing
+- **Public by default**: `/` goes straight to the timeline; profiles, posts, search and hashtags are readable signed-out, with a slim signup bar instead of a landing page
 - Every page is partially prerendered: the static shell comes from the CDN, per-user parts stream in
 
 ## Run it
