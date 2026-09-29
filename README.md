@@ -1,157 +1,144 @@
 <div align="center">
 
-<img src="docs/logo.svg" width="88" height="88" alt="Halo" />
+<img src="docs/logo.svg" width="80" height="80" alt="Halo" />
 
 # Halo
 
 **A realtime social network, built by AI agents with the [Heliostack skills](https://github.com/heliostack-dev/skills).**
 
+**[Live demo → halo-sh031224-s-pro.vercel.app](https://halo-sh031224-s-pro.vercel.app)** &nbsp;·&nbsp; browse signed-out, or sign in as `demo` / `halo-demo`
+
 [![Next.js 16.3](https://img.shields.io/badge/Next.js-16.3-000?logo=nextdotjs&logoColor=white)](https://nextjs.org)
 [![React 19.3](https://img.shields.io/badge/React-19.3-149eca?logo=react&logoColor=white)](https://react.dev)
 [![TypeScript 7](https://img.shields.io/badge/TypeScript-7-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
-[![Postgres](https://img.shields.io/badge/Postgres-Neon%20%C2%B7%20PGlite-4169e1?logo=postgresql&logoColor=white)](https://neon.tech)
-[![Runtime deps: 5](https://img.shields.io/badge/runtime%20deps-5-2f6bff)](#whats-inside)
-[![License: MIT](https://img.shields.io/badge/license-MIT-lightgrey)](LICENSE)
-
-[Features](#features) · [Quick start](#quick-start) · [What's inside](#whats-inside) · [Architecture](#architecture) · [Deploy](#deploy)
+[![Postgres](https://img.shields.io/badge/Postgres-Neon-4169e1?logo=postgresql&logoColor=white)](https://neon.tech)
+[![Runtime deps: 5](https://img.shields.io/badge/runtime%20deps-5-2f6bff)](#dependencies)
 
 <br />
 
-<img src="docs/screenshots/home-dark.png" alt="Halo home timeline in dark mode" width="100%" />
+<a href="https://halo-sh031224-s-pro.vercel.app"><img src="docs/screenshots/home-dark.png" alt="Halo home timeline" width="100%" /></a>
 
 </div>
 
 <br />
 
-Halo exists to test one claim: **an agent that follows a small set of well-made skills can build a product-grade app of this size on the platform alone.** No ORM, no auth SDK, no UI kit, no state or data-fetching library, no animation library, no websocket service, no test framework.
+Halo tests one claim: **an agent that follows a small set of well-made skills can build a product-grade app on the platform alone.** Timelines, threads, reposts and quotes, follows, grouped notifications, direct messages, search, trends and seven themes — in ~5,400 lines of TypeScript with five runtime dependencies.
 
-## Features
+## Contents
 
-<table>
-<tr>
-<td width="50%" valign="top">
+- [How it's built](#how-its-built) — rendering · data · mutations · realtime · auth · UI · tests
+- [Feature notes](#feature-notes) — what each feature does and where the interesting code is
+- [Run it locally](#run-it-locally)
+- [Deploy](#deploy)
 
-**Timelines** — ranked _For you_ and chronological _Following_, reposts deduplicated, infinite scroll, live "Show N new posts".
+## How it's built
 
-**Posts** — threads, reposts, quotes, likes, bookmarks, #hashtags and @mentions. Every toggle is optimistic with rollback.
+### Rendering: static shells + streamed holes
 
-**Compose as a route** — `/compose/post` opens a dialog over whatever page you're on, and still works on refresh or as a shared link.
+`cacheComponents: true` + `partialPrefetching: true`. Every page is **partially prerendered** (`◐` in the build output): the shell — sidebar, header, tabs, trends — is static HTML from the CDN, and per-user parts stream in behind `<Suspense>`.
 
-**Public by default** — no landing page: visitors land on the real timeline, profiles and posts, with a slim signup bar.
+| Data | Treatment | Example |
+|---|---|---|
+| Same for everyone, minutes-stale OK | `'use cache'` + `cacheLife('minutes')` + `cacheTag(...)` | trends, profile headers, hashtag counts |
+| Personalised or must be fresh | uncached, `<Suspense>` as deep as possible | feeds (viewer's liked state), unread badges, composer |
+| URL-dependent | `params` / `searchParams` promises passed down, awaited inside a boundary | `/login?next=`, `/explore?q=` |
 
-</td>
-<td width="50%" valign="top">
+Layouts never await request data, so navigating between pages is instant. Cache tags are built in one place ([`src/server/cache-tags.ts`](src/server/cache-tags.ts)) so writers and readers can't drift.
 
-**Profiles** — cached headers, posts / replies / likes tabs, followers and following, optimistic follow.
+### Data: raw SQL, pure repositories, one query per list
 
-**Notifications** — grouped ("Sam and 10 others liked your post"), unread state synced across tabs in realtime.
+- **postgres.js** tagged templates — no ORM. Repositories ([`src/features/*/server/repo.ts`](src/features/posts/server/repo.ts)) are pure `(db, …args)` functions with no Next.js imports, which is what makes them testable against a real database.
+- **Lists fetch ids, then hydrate once.** A feed query returns post ids (an index scan); [`hydrate()`](src/features/posts/server/repo.ts) turns them into full cards — author, counts, the viewer's like/repost/bookmark state, reply target, reposter — in a single statement ordered by `unnest(...) with ordinality`, plus one batched query for quoted posts. No N+1.
+- **A repost is a post row** (`repost_of_id`), so the home timeline is one id-cursor query. A post reposted by several people you follow appears once (`distinct on (coalesce(repost_of_id, id))`).
+- **"For you"** ranks the last 14 days by `(1 + likes + 2·reposts + replies + 2·quotes) / (hours + 2)^1.4` with an offset cursor; the client dedupes across pages.
+- **Counters live in triggers** ([`db/migrations/0001_init.sql`](db/migrations/0001_init.sql)) — likes, reposts, replies and followers can never drift from the rows.
+- **Search** is Postgres full-text (`tsvector` with the `simple` config, so Korean and code work) plus prefix search on handles and names.
 
-**Messages** — 1:1 DMs with optimistic send, live delivery, read receipts and IME-safe Enter-to-send.
+### Mutations: one pipeline, optimistic UI
 
-**Explore & settings** — full-text search, people search, trends, hashtag pages, 7 themes × light / dark / system.
+Every Server Action follows the same steps — [`createPostAction`](src/features/posts/actions.ts) is the reference:
 
-</td>
-</tr>
-</table>
+```
+requireViewer() → zod parse → repo (authorisation inside the SQL) → updateTag / refresh() → publish realtime event → ActionState
+```
 
-<table>
-<tr>
-<td width="50%"><img src="docs/screenshots/profile-light.png" alt="Profile, light" /></td>
-<td width="50%"><img src="docs/screenshots/notifications-dark.png" alt="Grouped notifications, dark" /></td>
-</tr>
-<tr>
-<td width="50%"><img src="docs/screenshots/messages-dark.png" alt="Direct messages, dark" /></td>
-<td width="50%"><img src="docs/screenshots/settings-light.png" alt="Theme settings, light" /></td>
-</tr>
-</table>
+Likes, reposts, bookmarks and follows are **optimistic**: `useOptimistic` layered over locally confirmed state, so the UI flips instantly and rolls back on failure ([`post-actions.tsx`](src/features/posts/components/post-actions.tsx)). Every mutation is idempotent (`on conflict do nothing`), so double clicks are harmless.
 
-<p align="center">
-  <img src="docs/screenshots/mobile-home-dark.png" alt="Mobile timeline" width="30%" />
-  &nbsp;&nbsp;
-  <img src="docs/screenshots/mobile-messages-light.png" alt="Mobile messages" width="30%" />
-</p>
+### Realtime: SSE over Postgres NOTIFY
 
-## Quick start
+```mermaid
+flowchart LR
+  A["Server Action"] -->|"pg_notify · ids only"| DB[("Postgres")]
+  DB -->|"LISTEN · one per instance"| S["/api/events · SSE"]
+  S -->|"routed per viewer"| B["EventSource"]
+  B --> U["badge +1 · Show N posts · chat refresh"]
+```
 
-Requires **Node 24+** and **pnpm**. No Docker — local Postgres runs as WASM.
+- Events carry **ids, never content**; the browser refetches through the normal authorised paths ([`src/server/realtime`](src/server/realtime)).
+- [`/api/events`](src/app/api/events/route.ts) filters per viewer (posts from people you follow, your notifications, your conversations), sends a heartbeat every 20 s and closes itself before the serverless time limit; `EventSource` reconnects. Signed-out visitors get **204**, which tells `EventSource` to stop.
+- Locally the bus is in-memory, because PGlite is single-session and cross-connection `NOTIFY` can't fire.
+
+### Auth: ~150 lines, no SDK
+
+scrypt from `node:crypto` for passwords; 256-bit random session tokens in an httpOnly cookie, stored in the database only as `HMAC(SESSION_SECRET, token)`; sliding 30-day expiry ([`src/server/auth`](src/server/auth)). [`proxy.ts`](src/proxy.ts) does optimistic redirects from cookie presence only — real checks happen next to the data. The timeline, profiles, posts and search are **public**; there's no landing page.
+
+### UI: a native design system
+
+- Tokens generated from [`design-system.json`](design-system.json) by the `ds-init` theme engine: OKLCH colours with `light-dark()`, 7 WCAG-checked themes, a 12/14/16 px type scale.
+- 17 components in [`src/ui`](src/ui/CATALOG.md) built on the platform: `<dialog>` modals, Popover API menus positioned with **CSS anchor positioning**, `@starting-style` animations, and `content-visibility: auto` instead of a virtualization library.
+- **Compose is a route.** `/compose/post` is intercepted by `@modal/(.)compose/post` and opens as a dialog over the current page; a direct visit still works.
+- A token linter ([`design/check-tokens.mjs`](design/check-tokens.mjs)) fails any raw colour or spacing value, and any CSS file that doesn't declare the cascade-layer order on line 1.
+
+### Tests: real Postgres, no framework
+
+`node:test` runs the TypeScript sources directly. [`useTestDb()`](src/server/testing.ts) boots a fresh in-memory Postgres (PGlite, WASM) per test file behind the wire protocol, so tests use the same driver and migrations as production — no mocks, no Docker. 26 tests cover threads, idempotent toggles, pagination edges, repost dedupe, authorisation, notification grouping and text parsing.
+
+## Feature notes
+
+| Feature | Notes | Code |
+|---|---|---|
+| Timelines | ranked *For you*, chronological *Following*, infinite scroll via a Server Function, live "Show N new posts" | [`posts/`](src/features/posts) |
+| Threads | ancestors via a recursive CTE, focused post, replies ranked by likes | [`status/[postId]`](src/app/(app)/[handle]/status/[postId]/page.tsx) |
+| Profiles | cached header per handle, relationship streamed separately, posts / replies / likes tabs | [`profiles/`](src/features/profiles) |
+| Notifications | likes, reposts and follows grouped per post ("Sam and 10 others…"), read state synced across tabs | [`notifications/group.ts`](src/features/notifications/group.ts) |
+| Messages | 1:1 DMs, membership checked in SQL, optimistic send, IME-safe Enter to send | [`messages/`](src/features/messages) |
+| Explore | full-text posts, people search, trends, hashtag pages | [`explore/`](src/features/explore) |
+| Settings | theme + light / dark / system switcher (applied pre-paint, no flash), profile editing | [`settings/`](src/features/settings) |
+
+## Run it locally
+
+Requires Node 24+ and pnpm. No Docker — local Postgres runs as WASM.
 
 ```bash
 pnpm install
-cp .env.example .env.local        # then set SESSION_SECRET (the command is in the file)
-
-pnpm dev:db                       # Postgres (PGlite) on :5432 — leave it running
+cp .env.example .env.local        # set SESSION_SECRET (command in the file)
+pnpm dev:db                       # Postgres (PGlite) on :5432 — keep it running
 pnpm db:migrate && pnpm db:seed   # 40 users, ~660 posts, likes, follows, DMs
 pnpm dev                          # http://localhost:3000
 ```
 
-Sign in as **`demo` / `halo-demo`** — or just browse signed-out.
-
 ```bash
-pnpm verify    # typecheck (typed routes) → ds:check (contrast + token lint) → test → build
+pnpm verify   # typecheck (typed routes) → ds:check → test → build
 ```
 
-## What's inside
+### Dependencies
 
 ```
-runtime dependencies  →  next · react · react-dom · postgres · zod
+runtime   next · react · react-dom · postgres · zod
+dev       typescript · @types/* · @electric-sql/pglite · @electric-sql/pglite-socket
 ```
-
-| Need | How Halo does it |
-|---|---|
-| Rendering | Cache Components + Partial Prerendering — every page ships a static shell from the CDN; per-user parts stream in behind `<Suspense>` |
-| Data | Raw tagged SQL with postgres.js, one hydration query per list, counters kept by triggers, `tsvector` search |
-| Mutations | Server Actions: validate (zod) → authorise in SQL → mutate → `updateTag` / `refresh` → publish |
-| Optimistic UI | `useOptimistic` over locally confirmed state — instant, with automatic rollback |
-| Auth | `node:crypto` scrypt, 256-bit session tokens stored as HMAC hashes, `proxy.ts` for optimistic redirects |
-| Realtime | Server-Sent Events fed by Postgres `LISTEN/NOTIFY` (in-memory bus locally), ids-only events routed per viewer |
-| Modals & menus | Native `<dialog>`, the Popover API and CSS anchor positioning; `@starting-style` animations |
-| Long lists | `content-visibility: auto` instead of a virtualization library |
-| Theming | `light-dark()` OKLCH tokens generated from `design-system.json`, switched pre-paint by an inline script |
-| Tests | `node:test` running TypeScript directly, a fresh real Postgres (PGlite) per test file |
-
-## Architecture
-
-```mermaid
-flowchart TB
-  subgraph browser["Browser"]
-    UI["Server-rendered UI + client leaves"]
-    ES["EventSource"]
-  end
-  subgraph next["Next.js 16"]
-    Pages["app/ routes · static shell + Suspense holes"]
-    Actions["Server Actions · validate, authorise, mutate"]
-    SSE["/api/events · SSE per viewer"]
-    Queries["features/*/server · queries, repo"]
-  end
-  DB[("Postgres · Neon / PGlite")]
-  UI -->|navigate| Pages --> Queries --> DB
-  UI -->|form / toggle| Actions --> Queries
-  Actions -->|pg_notify| DB -->|LISTEN| SSE --> ES --> UI
-```
-
-| Path | What |
-|---|---|
-| `src/app` | Routes only — `(auth)`, the `(app)` shell with an `@modal` slot, `api/events` |
-| `src/features/*` | Vertical slices: `types.ts`, `server/repo.ts` (pure SQL, tested), `server/queries.ts`, `actions.ts`, `components/` |
-| `src/server` | env, database, auth, realtime bus, cache tags, test DB helper |
-| `src/ui` | Native design system — start with [`src/ui/CATALOG.md`](src/ui/CATALOG.md) |
-| `db/migrations` | Schema, counter triggers, full-text search |
-| `scripts` | `dev-db`, `migrate`, `seed` — plain TypeScript run by Node |
-| `design` | Theme engine and token linter vendored from the `ds-init` skill |
-
-Working on Halo with an agent? [`AGENTS.md`](AGENTS.md) has the house rules.
 
 ## Deploy
 
-Vercel + Neon Postgres (Vercel Marketplace). Set:
+Vercel + Neon (Vercel Marketplace). The `vercel-build` script runs migrations over the direct connection before `next build`.
 
 | Variable | Purpose |
 |---|---|
-| `DATABASE_URL` | Pooled connection for queries |
-| `DATABASE_URL_UNPOOLED` | Direct connection — enables cross-instance realtime (`LISTEN`) and migrations |
+| `DATABASE_URL` | pooled connection for queries (set by the Neon integration) |
+| `DATABASE_URL_UNPOOLED` | direct connection — migrations and cross-instance realtime (`LISTEN`) |
 | `SESSION_SECRET` | 32+ random bytes; rotating it signs everyone out |
 
-Step-by-step in the [`deploy-vercel`](https://github.com/heliostack-dev/skills/blob/main/skills/deploy-vercel/SKILL.md) skill.
+Full walkthrough: the [`deploy-vercel`](https://github.com/heliostack-dev/skills/blob/main/skills/deploy-vercel/SKILL.md) skill.
 
 ## License
 
