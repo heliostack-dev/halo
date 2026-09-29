@@ -87,7 +87,7 @@ export function Thread({ conversationId, viewerId, otherName, initial }: ThreadP
   }
 
   return (
-    <div className={styles.thread}>
+    <div className={styles.thread} data-hide-fab="">
       <div className={styles.messages} role="log" aria-label={`Conversation with ${otherName}`}>
         {olderCursor ? (
           <div className={styles.older}>
