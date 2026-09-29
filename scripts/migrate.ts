@@ -1,6 +1,7 @@
 // Applies db/migrations/*.sql in filename order, each in its own transaction.
 //   node scripts/migrate.ts          apply pending migrations
 //   node scripts/migrate.ts --reset  drop everything first (development only)
+//   node scripts/migrate.ts --unpooled  prefer DATABASE_URL_UNPOOLED (DDL through PgBouncer is unreliable)
 import { readdir, readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { createSql, type Sql } from '../src/server/sql.ts'
@@ -23,7 +24,7 @@ export async function migrate(sql: Sql, { log = console.log } = {}) {
 }
 
 if (import.meta.main) {
-  const url = process.env.DATABASE_URL
+  const url = (process.argv.includes('--unpooled') && process.env.DATABASE_URL_UNPOOLED) || process.env.DATABASE_URL
   if (!url) throw new Error('DATABASE_URL is not set')
   const sql = createSql(url, { max: 1 })
   if (process.argv.includes('--reset')) {
