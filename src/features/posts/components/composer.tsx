@@ -57,6 +57,7 @@ export function Composer({ viewer, replyToId, quoteOfId, placeholder = 'What’s
           maxLength={POST_MAX_LENGTH + 20}
           rows={2}
           autoFocus={autoFocus}
+          data-autofocus={autoFocus || undefined}
           defaultValue={state.status === 'error' ? state.values?.body : undefined}
           key={state.status === 'success' ? state.data.id : 'draft'}
           onChange={(e) => setLength(e.currentTarget.value.length)}

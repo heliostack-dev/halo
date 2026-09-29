@@ -1,0 +1,41 @@
+@layer reset, tokens, base, components, utilities;
+@layer components {
+  .bar { display: flex; align-items: center; height: var(--layout-header); padding: 0 var(--space-5); }
+  .search {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    height: var(--size-control-lg);
+    padding: 0 var(--space-4);
+    border-radius: var(--radius-full);
+    background: var(--muted);
+    color: var(--muted-foreground);
+    border: 1px solid transparent;
+    transition: border-color var(--duration-fast) var(--ease-standard), background-color var(--duration-fast) var(--ease-standard);
+  }
+  .search:focus-within { background: var(--background); border-color: var(--primary); color: var(--primary); }
+  .search input { flex: 1; min-width: 0; border: 0; background: transparent; color: var(--foreground); font-size: var(--text-md); line-height: var(--leading-md); }
+  .search input::placeholder { color: var(--muted-foreground); }
+  .search input:focus { outline: none; }
+
+  .section { border-bottom: 1px solid var(--border); }
+  .sectionTitle { padding: var(--space-4) var(--space-5) var(--space-2); font-size: var(--text-lg); line-height: var(--leading-lg); font-weight: var(--weight-bold); }
+  .empty { padding: var(--space-2) var(--space-5) var(--space-5); color: var(--muted-foreground); font-size: var(--text-sm); line-height: var(--leading-sm); }
+
+  .trends { list-style: none; padding: 0 0 var(--space-2); }
+  .trend {
+    display: grid;
+    grid-template-columns: var(--space-6) minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: var(--space-3);
+    padding: var(--space-3) var(--space-5);
+    transition: background-color var(--duration-fast) var(--ease-standard);
+  }
+  .trend:hover { background: var(--accent); }
+  .rank { color: var(--muted-foreground); font-family: var(--font-mono); font-size: var(--text-xs); line-height: var(--leading-xs); font-variant-numeric: tabular-nums; }
+  .tag { font-size: var(--text-md); line-height: var(--leading-md); font-weight: var(--weight-medium); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .count { color: var(--muted-foreground); font-family: var(--font-mono); font-size: var(--text-xs); line-height: var(--leading-xs); font-variant-numeric: tabular-nums; }
+
+  .skeleton { display: grid; gap: var(--space-3); padding: var(--space-2) var(--space-5) var(--space-5); }
+}

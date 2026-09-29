@@ -1,5 +1,6 @@
 'use client'
 
+import type { Route } from 'next'
 import { Avatar } from '#/ui/avatar.tsx'
 import { Icon } from '#/ui/icon.tsx'
 import { Menu, MenuItem, MenuLink, MenuSeparator } from '#/ui/menu.tsx'
@@ -25,7 +26,7 @@ export function AccountMenu({ viewer }: { viewer: Viewer }) {
           </>
         }
       >
-        <MenuLink icon="user" href={`/${viewer.handle}`}>Your profile</MenuLink>
+        <MenuLink icon="user" href={`/${viewer.handle}` as Route}>Your profile</MenuLink>
         <MenuLink icon="palette" href="/settings">Display</MenuLink>
         <MenuSeparator />
         <MenuItem icon="logout" type="submit" form="logout-form">Log out @{viewer.handle}</MenuItem>

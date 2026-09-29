@@ -14,7 +14,7 @@ export type IconName = (typeof ICON_NAMES)[number]
 
 type IconProps = Omit<SVGProps<SVGSVGElement>, 'name'> & {
   name: IconName
-  size?: 16 | 18 | 20 | 24 | 28
+  size?: 16 | 18 | 20 | 22 | 24 | 28
   /** Accessible name. Omit for decorative icons next to visible text. */
   label?: string
   /** Fill the shape (e.g. a liked heart). */

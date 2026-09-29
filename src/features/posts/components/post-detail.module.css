@@ -1,0 +1,39 @@
+@layer reset, tokens, base, components, utilities;
+@layer components {
+  .detail {
+    display: grid;
+    gap: var(--space-3);
+    padding: var(--space-4) var(--space-5) 0;
+    border-bottom: 1px solid var(--border);
+    scroll-margin-top: var(--layout-header);
+  }
+  .header { display: grid; grid-template-columns: var(--size-avatar-md) minmax(0, 1fr) auto; column-gap: var(--space-3); align-items: center; }
+  .avatar { width: var(--size-avatar-md); height: var(--size-avatar-md); border-radius: var(--radius-full); }
+  .who { display: grid; min-width: 0; }
+  .name { display: inline-flex; align-items: center; gap: var(--space-1); min-width: 0; font-size: var(--text-sm); line-height: var(--leading-sm); font-weight: var(--weight-semibold); }
+  .name:hover .displayName { text-decoration: underline; }
+  .displayName { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .verified { color: var(--primary); }
+  .handle { color: var(--muted-foreground); font-family: var(--font-mono); font-size: var(--text-xs); line-height: var(--leading-xs); }
+  .menu { margin-inline-end: calc(var(--space-2) * -1); }
+
+  .replying { color: var(--muted-foreground); font-size: var(--text-sm); line-height: var(--leading-sm); }
+  .replying a { color: var(--primary); }
+  .replying a:hover { text-decoration: underline; }
+  .body { white-space: pre-wrap; overflow-wrap: anywhere; font-size: var(--text-lg); line-height: var(--leading-lg); }
+
+  .date { color: var(--muted-foreground); font-family: var(--font-mono); font-size: var(--text-xs); line-height: var(--leading-xs); }
+  .stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-5);
+    padding: var(--space-3) 0;
+    border-top: 1px solid var(--border);
+    color: var(--muted-foreground);
+    font-size: var(--text-sm);
+    line-height: var(--leading-sm);
+  }
+  .stats strong { color: var(--foreground); font-weight: var(--weight-semibold); font-variant-numeric: tabular-nums; }
+  .actions { padding: var(--space-1) 0; border-top: 1px solid var(--border); }
+  .actions > div { margin-top: 0; }
+}

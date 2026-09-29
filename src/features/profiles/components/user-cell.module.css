@@ -1,7 +1,8 @@
 @layer reset, tokens, base, components, utilities;
 @layer components {
-  .cell { position: relative; display: grid; grid-template-columns: var(--size-avatar-md) minmax(0, 1fr); column-gap: var(--space-3); padding: var(--space-3) var(--space-4); transition: background-color var(--duration-fast) var(--ease-standard); }
+  .cell { position: relative; display: grid; grid-template-columns: var(--size-avatar-md) minmax(0, 1fr); column-gap: var(--space-3); padding: var(--space-4) var(--space-5); transition: background-color var(--duration-fast) var(--ease-standard); }
   .cell:hover { background: var(--accent); }
+  .compact { padding: var(--space-3) var(--space-4); }
   .overlay { position: absolute; inset: 0; }
   .text { display: grid; gap: var(--space-1); min-width: 0; }
   .top { display: flex; align-items: center; gap: var(--space-3); min-height: var(--size-avatar-md); }

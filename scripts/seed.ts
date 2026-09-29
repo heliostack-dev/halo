@@ -164,7 +164,7 @@ async function seed(sql: Sql) {
     await sql`insert into conversation_members ${sql([{ conversationId: conv!.id, userId: demo }, { conversationId: conv!.id, userId: other }])}`
     const count = 3 + Math.floor(rand() * 6)
     for (let m = 0; m < count; m++) {
-      const at = new Date(now - (count - m) * 3_600_000 * (1 + rand()))
+      const at = new Date(now - (count - m) * 2_700_000 - Math.floor(rand() * 600_000)) // monotonic: ids and times agree
       await sql`insert into messages (conversation_id, sender_id, body, created_at) values (${conv!.id}, ${chance(0.5) ? demo : other}, ${pick(MESSAGES)}, ${at})`
     }
     await sql`update conversations set last_message_at = (select max(created_at) from messages where conversation_id = ${conv!.id}) where id = ${conv!.id}`

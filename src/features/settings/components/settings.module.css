@@ -1,0 +1,17 @@
+@layer reset, tokens, base, components, utilities;
+@layer components {
+  .page { display: grid; gap: var(--space-4); padding: var(--space-4) var(--space-5); }
+  .section { display: grid; gap: var(--space-5); padding: var(--space-5); border: 1px solid var(--border); border-radius: var(--radius-lg); background: color-mix(in oklch, var(--card) 40%, transparent); }
+  .sectionHeader { display: grid; gap: var(--space-1); }
+  .sectionTitle { font-size: var(--text-md); line-height: var(--leading-md); font-weight: var(--weight-bold); }
+  .sectionDescription { color: var(--muted-foreground); font-size: var(--text-sm); line-height: var(--leading-sm); }
+  .form { display: grid; gap: var(--space-4); }
+  .row { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: var(--space-4); }
+  .actions { display: flex; justify-content: flex-end; }
+  .formError { padding: var(--space-3); border-radius: var(--radius-md); background: color-mix(in oklch, var(--destructive) 12%, transparent); color: var(--destructive); font-size: var(--text-sm); line-height: var(--leading-sm); }
+  .account { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); }
+  .accountText { display: grid; min-width: 0; }
+  .accountName { font-size: var(--text-sm); line-height: var(--leading-sm); font-weight: var(--weight-semibold); }
+  .accountHandle { color: var(--muted-foreground); font-family: var(--font-mono); font-size: var(--text-xs); line-height: var(--leading-xs); }
+  .skeleton { display: grid; gap: var(--space-4); }
+}

@@ -1,3 +1,4 @@
+import type { Route } from 'next'
 import Link from 'next/link'
 import { Suspense } from 'react'
 import { sql } from '#/server/db.ts'
@@ -30,7 +31,7 @@ export function Sidebar() {
           </Suspense>
           <NavLink href="/settings" icon="settings" label="Settings" />
         </nav>
-        <Link href="/compose/post" className={buttonStyles({ size: 'lg', block: true, className: styles.postButton })} scroll={false}>
+        <Link href="/compose/post" className={buttonStyles({ size: 'lg', className: styles.postButton })} scroll={false}>
           <Icon name="plus" size={20} className={styles.postIcon} />
           <span className={styles.postLabel}>Post</span>
         </Link>
@@ -54,7 +55,7 @@ async function Unread({ scope }: { scope: 'notifications' | 'messages' }) {
 async function ProfileLink() {
   const viewer = await getViewer()
   if (!viewer) return null
-  return <NavLink href={`/${viewer.handle}`} icon="user" label="Profile" />
+  return <NavLink href={`/${viewer.handle}` as Route} icon="user" label="Profile" />
 }
 
 async function Account() {

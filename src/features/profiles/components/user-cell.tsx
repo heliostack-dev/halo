@@ -5,9 +5,10 @@ import type { UserCard } from '../server/follows.ts'
 import { FollowButton } from './follow-button.tsx'
 import styles from './user-cell.module.css'
 
-export function UserCell({ user, viewerId, showBio = true }: { user: UserCard; viewerId: string | null; showBio?: boolean }) {
+/** A user row. `compact` is for narrow rails: tighter padding, no bio, no "Follows you" chip. */
+export function UserCell({ user, viewerId, showBio = true, compact = false }: { user: UserCard; viewerId: string | null; showBio?: boolean; compact?: boolean }) {
   return (
-    <div className={styles.cell}>
+    <div className={compact ? `${styles.cell} ${styles.compact}` : styles.cell}>
       <Link href={`/${user.handle}`} className={styles.overlay} aria-label={user.displayName} />
       <Avatar name={user.displayName} hue={user.avatarHue} />
       <div className={styles.text}>
@@ -19,7 +20,7 @@ export function UserCell({ user, viewerId, showBio = true }: { user: UserCard; v
             </span>
             <span className={styles.handle}>
               @{user.handle}
-              {user.followsViewer ? <span className={styles.chip}>Follows you</span> : null}
+              {user.followsViewer && !compact ? <span className={styles.chip}>Follows you</span> : null}
             </span>
           </div>
           {viewerId !== user.id ? (
@@ -28,7 +29,7 @@ export function UserCell({ user, viewerId, showBio = true }: { user: UserCard; v
             </div>
           ) : null}
         </div>
-        {showBio && user.bio ? <p className={styles.bio}>{user.bio}</p> : null}
+        {showBio && !compact && user.bio ? <p className={styles.bio}>{user.bio}</p> : null}
       </div>
     </div>
   )

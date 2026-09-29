@@ -1,5 +1,6 @@
 'use client'
 
+import type { Route } from 'next'
 import { startTransition } from 'react'
 import { Menu, MenuItem, MenuLink } from '#/ui/menu.tsx'
 import { useToast } from '#/ui/toast.tsx'
@@ -30,8 +31,8 @@ export function PostMenu({ post, signedIn }: { post: PostView; signedIn: boolean
             Delete
           </MenuItem>
         ) : null}
-        <MenuLink icon="user" href={`/${post.author.handle}`}>View @{post.author.handle}</MenuLink>
-        <MenuLink icon="mail" href={`/messages/new?to=${post.author.handle}`}>Message @{post.author.handle}</MenuLink>
+        <MenuLink icon="user" href={`/${post.author.handle}` as Route}>View @{post.author.handle}</MenuLink>
+        <MenuLink icon="mail" href={`/messages/new?to=${post.author.handle}` as Route}>Message @{post.author.handle}</MenuLink>
       </Menu>
     </div>
   )

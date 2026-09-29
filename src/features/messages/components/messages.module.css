@@ -1,0 +1,84 @@
+@layer reset, tokens, base, components, utilities;
+@layer components {
+  /* ---------------------------------------------------------------- inbox */
+  .list { list-style: none; padding: 0; }
+  .conversation {
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--size-avatar-md) minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: var(--space-3);
+    padding: var(--space-4) var(--space-5);
+    border-bottom: 1px solid var(--border);
+    transition: background-color var(--duration-fast) var(--ease-standard);
+  }
+  a.conversation:hover { background: var(--accent); }
+  .summary { display: grid; gap: var(--space-1); min-width: 0; }
+  .summaryTop { display: flex; align-items: center; gap: var(--space-1); min-width: 0; white-space: nowrap; }
+  .name { display: inline-flex; align-items: center; gap: var(--space-1); min-width: 0; font-size: var(--text-sm); line-height: var(--leading-sm); font-weight: var(--weight-semibold); overflow: hidden; text-overflow: ellipsis; }
+  .verified { color: var(--primary); }
+  .meta { display: inline-flex; align-items: center; gap: var(--space-1); min-width: 0; color: var(--muted-foreground); font-family: var(--font-mono); font-size: var(--text-xs); line-height: var(--leading-xs); }
+  .handle { overflow: hidden; text-overflow: ellipsis; }
+  .preview { color: var(--muted-foreground); font-size: var(--text-sm); line-height: var(--leading-sm); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .unread .preview { color: var(--foreground); font-weight: var(--weight-medium); }
+  .dot { width: var(--space-2); height: var(--space-2); border-radius: var(--radius-full); background: var(--primary); }
+
+  /* ---------------------------------------------------------------- thread */
+  .thread { display: flex; flex-direction: column; min-height: calc(100dvh - var(--layout-header)); margin-bottom: calc(var(--space-16) * -1); } /* cancel the shell's bottom padding: the composer owns the bottom edge */
+  .messages { flex: 1; display: flex; flex-direction: column; gap: var(--space-1); padding: var(--space-4) var(--space-5); }
+  .older { display: flex; justify-content: center; padding-bottom: var(--space-4); }
+  .message { display: flex; flex-direction: column; max-width: min(80%, 28rem); }
+  .mine { align-self: flex-end; align-items: flex-end; }
+  .theirs { align-self: flex-start; align-items: flex-start; }
+  .groupEnd { margin-bottom: var(--space-3); }
+  .bubble {
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-xl);
+    font-size: var(--text-md);
+    line-height: var(--leading-md);
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+  .mine .bubble { background: var(--primary); color: var(--primary-foreground); }
+  .theirs .bubble { background: var(--muted); color: var(--foreground); }
+  .mine.groupEnd .bubble { border-end-end-radius: var(--radius-sm); }
+  .theirs.groupEnd .bubble { border-end-start-radius: var(--radius-sm); }
+  .pending { opacity: 0.6; }
+  .stamp { margin-top: var(--space-1); color: var(--muted-foreground); font-family: var(--font-mono); font-size: var(--text-xs); line-height: var(--leading-xs); }
+
+  .composer {
+    position: sticky;
+    bottom: 0;
+    display: flex;
+    align-items: flex-end;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-5);
+    border-top: 1px solid var(--border);
+    background: color-mix(in oklch, var(--background) 88%, transparent);
+    backdrop-filter: blur(12px);
+  }
+  .input {
+    flex: 1;
+    min-height: var(--size-control-md);
+    max-height: 10rem;
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid transparent;
+    border-radius: var(--radius-xl);
+    background: var(--muted);
+    font-size: var(--text-md);
+    line-height: var(--leading-md);
+    resize: none;
+    field-sizing: content;
+    transition: border-color var(--duration-fast) var(--ease-standard), background-color var(--duration-fast) var(--ease-standard);
+  }
+  .input::placeholder { color: var(--muted-foreground); }
+  .input:focus { outline: none; border-color: var(--primary); background: var(--background); }
+  .send { color: var(--primary); }
+  .send:hover { background: color-mix(in oklch, var(--primary) 12%, transparent); }
+}
+@layer components {
+  /* The mobile shell pins the tab bar to the bottom edge; sit the composer on top of it. */
+  @media (width < 36rem) {
+    .composer { bottom: calc(var(--size-control-lg) + var(--space-2)); }
+  }
+}

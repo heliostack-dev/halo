@@ -29,7 +29,12 @@ export function Dialog({ open, onOpenChange, title, hideTitle, children, size = 
   useEffect(() => {
     const dialog = ref.current
     if (!dialog) return
-    if (open && !dialog.open) dialog.showModal()
+    if (open && !dialog.open) {
+      dialog.showModal()
+      // showModal() focuses the first focusable element (usually Close). React's autoFocus doesn't
+      // render the HTML attribute, so content opts in with data-autofocus instead.
+      dialog.querySelector<HTMLElement>('[data-autofocus]')?.focus()
+    }
     if (!open && dialog.open) dialog.close()
   }, [open])
 

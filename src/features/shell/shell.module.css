@@ -52,7 +52,9 @@
   .navLink[aria-current='page'] { background: color-mix(in oklch, var(--primary) 15%, transparent); color: var(--primary); font-weight: var(--weight-bold); }
   .navIcon { position: relative; display: grid; }
   .badge { position: absolute; top: calc(var(--space-2) * -1); right: calc(var(--space-2) * -1); }
-  .postButton { margin-top: var(--space-2); }
+  /* Overrides a Button from another CSS module → scope it (.sidebar .postButton) so it wins by
+     specificity; the order of two module files on one element is not guaranteed. */
+  .sidebar .postButton { width: 100%; margin-top: var(--space-2); }
   .postIcon { flex: none; }
   .account { margin-top: auto; }
   .accountPlaceholder { height: calc(var(--size-control-lg) + var(--space-2)); }
@@ -138,7 +140,7 @@
     .sidebarInner { align-items: center; padding-inline: var(--space-3); }
     .logoText, .navLabel, .postLabel, .accountText, .accountChevron { display: none; }
     .navLink { width: var(--size-control-lg); justify-content: center; padding: 0; }
-    .postButton { width: var(--size-control-lg); padding: 0; }
+    .sidebar .postButton { width: var(--size-control-lg); padding: 0; }
     .accountTrigger { padding: var(--space-1); }
   }
   @media (width < 64rem) {
@@ -154,6 +156,6 @@
     .nav { flex: 1; display: flex; justify-content: space-around; }
     .nav > :nth-child(n + 5) { display: none; }
     .navLink[aria-current='page'] { background: none; }
-    .postButton { position: fixed; right: var(--space-4); bottom: calc(var(--size-control-lg) + var(--space-6)); margin: 0; box-shadow: var(--shadow-lg); }
+    .sidebar .postButton { position: fixed; right: var(--space-4); bottom: calc(var(--size-control-lg) + var(--space-6)); width: var(--space-14, 3.5rem); height: var(--space-14, 3.5rem); margin: 0; box-shadow: var(--shadow-lg); } /* ds-allow: FAB size */
   }
 }

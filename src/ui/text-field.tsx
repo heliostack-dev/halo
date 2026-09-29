@@ -15,8 +15,10 @@ export function TextField({ label, hint, errors, className, id, ...rest }: Field
   const describedBy = errors?.length ? `${inputId}-error` : hint ? `${inputId}-hint` : undefined
   return (
     <div className={cx(styles.field, className)}>
-      <input id={inputId} className={styles.control} placeholder=" " aria-invalid={errors?.length ? true : undefined} aria-describedby={describedBy} {...rest} />
-      <label htmlFor={inputId} className={styles.label}>{label}</label>
+      <div className={styles.labelRow}>
+        <label htmlFor={inputId} className={styles.label}>{label}</label>
+      </div>
+      <input id={inputId} className={styles.control} aria-invalid={errors?.length ? true : undefined} aria-describedby={describedBy} {...rest} />
       <FieldMessage id={inputId} hint={hint} errors={errors} />
     </div>
   )

@@ -58,7 +58,7 @@ async function WhoToFollow() {
   return (
     <div className={styles.suggestions}>
       {users.map((u) => (
-        <UserCell key={u.id} user={u} viewerId={viewer?.id ?? null} showBio={false} />
+        <UserCell key={u.id} user={u} viewerId={viewer?.id ?? null} compact />
       ))}
     </div>
   )
