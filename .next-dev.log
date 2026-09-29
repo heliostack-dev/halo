@@ -1,0 +1,1252 @@
+$ next dev --port 3100
+▲ Next.js 16.3.6 (Turbopack)
+- Local:         http://localhost:3100
+- Network:       http://192.168.21.125:3100
+- Environments: .env.local
+✓ Ready in 478ms
+✓ Running next.config.ts took 65ms
+- Cache Components enabled
+- Partial Prefetching enabled
+
+✓ Generated AGENTS.md and CLAUDE.md for AI agents. Set `agentRules: false` in next.config to disable.
+ GET / 200 in 1828ms (next.js: 1612ms, proxy.ts: 114ms, application-code: 102ms)
+ GET /login 200 in 261ms (next.js: 235ms, proxy.ts: 1.2ms, application-code: 25ms)
+ GET /login 200 in 62ms (next.js: 40ms, proxy.ts: 1.9ms, application-code: 21ms)
+ GET /home 200 in 572ms (next.js: 470ms, proxy.ts: 3ms, application-code: 99ms)
+ POST /login 200 in 694ms (next.js: 4ms, proxy.ts: 7ms, application-code: 682ms)
+  └─ ƒ loginAction({"status":"idle"}, {}) in 70ms src/features/auth/actions.ts
+ POST /home 200 in 28ms (next.js: 6ms, proxy.ts: 3ms, application-code: 20ms)
+  └─ ƒ setLikeAction("420", true) in 11ms src/features/posts/actions.ts
+ POST /home 200 in 57ms (next.js: 3ms, proxy.ts: 1.7ms, application-code: 53ms)
+  └─ ƒ createPostAction({"status":"idle"}, {}) in 9ms src/features/posts/actions.ts
+ GET /home/following 200 in 300ms (next.js: 138ms, proxy.ts: 3ms, application-code: 159ms)
+ GET /home/following 200 in 53ms (next.js: 6ms, proxy.ts: 2ms, application-code: 45ms)
+ GET /api/events 200 in 2.2min (next.js: 273ms, application-code: 2.2min)
+[browser] ./src/features/posts/server/repo.ts:97:50
+Error: Expected a semicolon
+   95 |       order by coalesce(p.repost_of_id, p.id), p.id desc
+   96 |     ) latest
+>  97 |     order by item_id desc limit ${limit + 1}` -- order by the bigint, not the ::text alias
+      |                                                  ^^^^^
+   98 |   return page(rows.map((r) => r.id), limit)
+   99 | }
+  100 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  #1 [Server Component]:
+    ./src/features/posts/server/repo.ts
+    ./src/features/posts/actions.ts
+
+  #2 [Server Component]:
+    ./src/features/posts/server/repo.ts
+    ./src/features/posts/server/queries.ts
+    ./src/features/posts/components/feed-section.tsx
+    ./src/app/(app)/home/page.tsx 
+[browser] ./src/features/posts/server/repo.ts:88:22
+Error: The left-hand side of an assignment expression must be a variable or a property access.
+   86 |  */
+   87 | export async function followingTimeline(db: Db, viewerId: string, cursor: string | undefi...
+>  88 |   const rows = await db<{ id: string }[]>`
+      |                      ^^^^^^^^^^^^^^^^^^^^
+>  89 |     select item_id::text as id from (
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  90 |       select distinct on (coalesce(p.repost_of_id, p.id)) p.id as item_id
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |       from posts p
+      | ^^^^^^^^^^^^^^^^^^
+>  92 |       where p.author_id in (select followee_id from follows where follower_id = ${viewerI...
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  93 |         and p.reply_to_id is null
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  94 |         ${cursor ? db`and p.id < ${cursor}` : db``}
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  95 |       order by coalesce(p.repost_of_id, p.id), p.id desc
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |     ) latest
+      | ^^^^^^^^^^^^
+>  97 |     order by item_id desc limit ${limit + 1}` -- order by the bigint, not the ::text alias
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   98 |   return page(rows.map((r) => r.id), limit)
+   99 | }
+  100 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  #1 [Server Component]:
+    ./src/features/posts/server/repo.ts
+    ./src/features/posts/actions.ts
+
+  #2 [Server Component]:
+    ./src/features/posts/server/repo.ts
+    ./src/features/posts/server/queries.ts
+    ./src/features/posts/components/feed-section.tsx
+    ./src/app/(app)/home/page.tsx 
+[browser] ./src/features/posts/server/repo.ts:97:50
+Error: Expected a semicolon
+   95 |       order by coalesce(p.repost_of_id, p.id), p.id desc
+   96 |     ) latest
+>  97 |     order by item_id desc limit ${limit + 1}` -- order by the bigint, not the ::text alias
+      |                                                  ^^^^^
+   98 |   return page(rows.map((r) => r.id), limit)
+   99 | }
+  100 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  #1 [Server Component]:
+    ./src/features/posts/server/repo.ts
+    ./src/features/posts/actions.ts
+
+  #2 [Server Component]:
+    ./src/features/posts/server/repo.ts
+    ./src/features/posts/server/queries.ts
+    ./src/features/posts/components/feed-section.tsx
+    ./src/app/(app)/home/page.tsx 
+[browser] ./src/features/posts/server/repo.ts:88:22
+Error: The left-hand side of an assignment expression must be a variable or a property access.
+   86 |  */
+   87 | export async function followingTimeline(db: Db, viewerId: string, cursor: string | undefi...
+>  88 |   const rows = await db<{ id: string }[]>`
+      |                      ^^^^^^^^^^^^^^^^^^^^
+>  89 |     select item_id::text as id from (
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  90 |       select distinct on (coalesce(p.repost_of_id, p.id)) p.id as item_id
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  91 |       from posts p
+      | ^^^^^^^^^^^^^^^^^^
+>  92 |       where p.author_id in (select followee_id from follows where follower_id = ${viewerI...
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  93 |         and p.reply_to_id is null
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  94 |         ${cursor ? db`and p.id < ${cursor}` : db``}
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  95 |       order by coalesce(p.repost_of_id, p.id), p.id desc
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |     ) latest
+      | ^^^^^^^^^^^^
+>  97 |     order by item_id desc limit ${limit + 1}` -- order by the bigint, not the ::text alias
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   98 |   return page(rows.map((r) => r.id), limit)
+   99 | }
+  100 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  #1 [Server Component]:
+    ./src/features/posts/server/repo.ts
+    ./src/features/posts/actions.ts
+
+  #2 [Server Component]:
+    ./src/features/posts/server/repo.ts
+    ./src/features/posts/server/queries.ts
+    ./src/features/posts/components/feed-section.tsx
+    ./src/app/(app)/home/page.tsx 
+ GET /home/following 200 in 65ms (next.js: 6ms, proxy.ts: 3ms, application-code: 55ms)
+ GET /home/following 200 in 64ms (next.js: 5ms, proxy.ts: 3ms, application-code: 56ms)
+✓ Compiled in 5ms
+✓ Compiled in 15ms
+[browser] ./src/features/posts/components/post-actions.tsx:6:1
+Error: Export iconButtonParts doesn't exist in target module
+  4 | import { useRouter } from 'next/navigation'
+  5 | import { startTransition, useOptimistic, useState } from 'react'
+> 6 | import { IconButton, iconButtonParts, iconButtonStyles } from '#/ui/icon-button.tsx'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import { Icon } from '#/ui/icon.tsx'
+  8 | import { Menu, MenuItem, MenuLink } from '#/ui/menu.tsx'
+  9 | import { useToast } from '#/ui/toast.tsx'
+
+The export iconButtonParts was not found in module [project]/src/ui/icon-button.tsx [app-client] (ecmascript).
+Did you mean to import iconButtonStyles?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/features/posts/components/post-actions.tsx [Client Component Browser]
+    ./src/features/posts/components/post-card.tsx [Client Component Browser]
+    ./src/features/posts/components/feed.tsx [Client Component Browser]
+    ./src/features/posts/components/feed.tsx [Server Component]
+    ./src/features/posts/components/feed-section.tsx [Server Component]
+    ./src/app/(app)/home/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/features/posts/components/post-actions.tsx [Client Component SSR]
+    ./src/features/posts/components/post-card.tsx [Client Component SSR]
+    ./src/features/posts/components/feed.tsx [Client Component SSR]
+    ./src/features/posts/components/feed.tsx [Server Component]
+    ./src/features/posts/components/feed-section.tsx [Server Component]
+    ./src/app/(app)/home/page.tsx [Server Component] 
+[browser] ./src/features/posts/components/post-actions.tsx:6:1
+Error: Export iconButtonParts doesn't exist in target module
+  4 | import { useRouter } from 'next/navigation'
+  5 | import { startTransition, useOptimistic, useState } from 'react'
+> 6 | import { IconButton, iconButtonParts, iconButtonStyles } from '#/ui/icon-button.tsx'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import { Icon } from '#/ui/icon.tsx'
+  8 | import { Menu, MenuItem, MenuLink } from '#/ui/menu.tsx'
+  9 | import { useToast } from '#/ui/toast.tsx'
+
+The export iconButtonParts was not found in module [project]/src/ui/icon-button.tsx [app-ssr] (ecmascript).
+Did you mean to import iconButtonStyles?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/features/posts/components/post-actions.tsx [Client Component Browser]
+    ./src/features/posts/components/post-card.tsx [Client Component Browser]
+    ./src/features/posts/components/feed.tsx [Client Component Browser]
+    ./src/features/posts/components/feed.tsx [Server Component]
+    ./src/features/posts/components/feed-section.tsx [Server Component]
+    ./src/app/(app)/home/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/features/posts/components/post-actions.tsx [Client Component SSR]
+    ./src/features/posts/components/post-card.tsx [Client Component SSR]
+    ./src/features/posts/components/feed.tsx [Client Component SSR]
+    ./src/features/posts/components/feed.tsx [Server Component]
+    ./src/features/posts/components/feed-section.tsx [Server Component]
+    ./src/app/(app)/home/page.tsx [Server Component] 
+✓ Compiled in 3ms
+[browser] ./src/features/posts/components/post-actions.tsx:6:1
+Error: Export iconButtonParts doesn't exist in target module
+  4 | import { useRouter } from 'next/navigation'
+  5 | import { startTransition, useOptimistic, useState } from 'react'
+> 6 | import { IconButton, iconButtonParts, iconButtonStyles } from '#/ui/icon-button.tsx'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import { Icon } from '#/ui/icon.tsx'
+  8 | import { Menu, MenuItem, MenuLink } from '#/ui/menu.tsx'
+  9 | import { useToast } from '#/ui/toast.tsx'
+
+The export iconButtonParts was not found in module [project]/src/ui/icon-button.tsx [app-client] (ecmascript).
+Did you mean to import iconButtonStyles?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/features/posts/components/post-actions.tsx [Client Component Browser]
+    ./src/features/posts/components/post-card.tsx [Client Component Browser]
+    ./src/features/posts/components/feed.tsx [Client Component Browser]
+    ./src/features/posts/components/feed.tsx [Server Component]
+    ./src/features/posts/components/feed-section.tsx [Server Component]
+    ./src/app/(app)/home/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/features/posts/components/post-actions.tsx [Client Component SSR]
+    ./src/features/posts/components/post-card.tsx [Client Component SSR]
+    ./src/features/posts/components/feed.tsx [Client Component SSR]
+    ./src/features/posts/components/feed.tsx [Server Component]
+    ./src/features/posts/components/feed-section.tsx [Server Component]
+    ./src/app/(app)/home/page.tsx [Server Component] 
+[browser] ./src/features/posts/components/post-actions.tsx:6:1
+Error: Export iconButtonParts doesn't exist in target module
+  4 | import { useRouter } from 'next/navigation'
+  5 | import { startTransition, useOptimistic, useState } from 'react'
+> 6 | import { IconButton, iconButtonParts, iconButtonStyles } from '#/ui/icon-button.tsx'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import { Icon } from '#/ui/icon.tsx'
+  8 | import { Menu, MenuItem, MenuLink } from '#/ui/menu.tsx'
+  9 | import { useToast } from '#/ui/toast.tsx'
+
+The export iconButtonParts was not found in module [project]/src/ui/icon-button.tsx [app-ssr] (ecmascript).
+Did you mean to import iconButtonStyles?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/features/posts/components/post-actions.tsx [Client Component Browser]
+    ./src/features/posts/components/post-card.tsx [Client Component Browser]
+    ./src/features/posts/components/feed.tsx [Client Component Browser]
+    ./src/features/posts/components/feed.tsx [Server Component]
+    ./src/features/posts/components/feed-section.tsx [Server Component]
+    ./src/app/(app)/home/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/features/posts/components/post-actions.tsx [Client Component SSR]
+    ./src/features/posts/components/post-card.tsx [Client Component SSR]
+    ./src/features/posts/components/feed.tsx [Client Component SSR]
+    ./src/features/posts/components/feed.tsx [Server Component]
+    ./src/features/posts/components/feed-section.tsx [Server Component]
+    ./src/app/(app)/home/page.tsx [Server Component] 
+✓ Compiled in 8ms
+[browser] ./src/features/posts/components/post-actions.tsx:6:1
+Error: Export iconButtonParts doesn't exist in target module
+  4 | import { useRouter } from 'next/navigation'
+  5 | import { startTransition, useOptimistic, useState } from 'react'
+> 6 | import { IconButton, iconButtonParts, iconButtonStyles } from '#/ui/icon-button.tsx'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import { Icon } from '#/ui/icon.tsx'
+  8 | import { Menu, MenuItem, MenuLink } from '#/ui/menu.tsx'
+  9 | import { useToast } from '#/ui/toast.tsx'
+
+The export iconButtonParts was not found in module [project]/src/ui/icon-button.tsx [app-client] (ecmascript).
+Did you mean to import iconButtonStyles?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/features/posts/components/post-actions.tsx [Client Component Browser]
+    ./src/features/posts/components/post-card.tsx [Client Component Browser]
+    ./src/features/posts/components/feed.tsx [Client Component Browser]
+    ./src/features/posts/components/feed.tsx [Server Component]
+    ./src/features/posts/components/feed-section.tsx [Server Component]
+    ./src/app/(app)/home/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/features/posts/components/post-actions.tsx [Client Component SSR]
+    ./src/features/posts/components/post-card.tsx [Client Component SSR]
+    ./src/features/posts/components/feed.tsx [Client Component SSR]
+    ./src/features/posts/components/feed.tsx [Server Component]
+    ./src/features/posts/components/feed-section.tsx [Server Component]
+    ./src/app/(app)/home/page.tsx [Server Component] 
+[browser] ./src/features/posts/components/post-actions.tsx:6:1
+Error: Export iconButtonParts doesn't exist in target module
+  4 | import { useRouter } from 'next/navigation'
+  5 | import { startTransition, useOptimistic, useState } from 'react'
+> 6 | import { IconButton, iconButtonParts, iconButtonStyles } from '#/ui/icon-button.tsx'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import { Icon } from '#/ui/icon.tsx'
+  8 | import { Menu, MenuItem, MenuLink } from '#/ui/menu.tsx'
+  9 | import { useToast } from '#/ui/toast.tsx'
+
+The export iconButtonParts was not found in module [project]/src/ui/icon-button.tsx [app-ssr] (ecmascript).
+Did you mean to import iconButtonStyles?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/features/posts/components/post-actions.tsx [Client Component Browser]
+    ./src/features/posts/components/post-card.tsx [Client Component Browser]
+    ./src/features/posts/components/feed.tsx [Client Component Browser]
+    ./src/features/posts/components/feed.tsx [Server Component]
+    ./src/features/posts/components/feed-section.tsx [Server Component]
+    ./src/app/(app)/home/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/features/posts/components/post-actions.tsx [Client Component SSR]
+    ./src/features/posts/components/post-card.tsx [Client Component SSR]
+    ./src/features/posts/components/feed.tsx [Client Component SSR]
+    ./src/features/posts/components/feed.tsx [Server Component]
+    ./src/features/posts/components/feed-section.tsx [Server Component]
+    ./src/app/(app)/home/page.tsx [Server Component] 
+ GET /api/events 200 in 4.5min (next.js: 2ms, application-code: 4.5min)
+[browser] ./src/features/posts/components/post-actions.tsx:6:1
+Error: Export iconButtonParts doesn't exist in target module
+  4 | import { useRouter } from 'next/navigation'
+  5 | import { startTransition, useOptimistic, useState } from 'react'
+> 6 | import { IconButton, iconButtonParts, iconButtonStyles } from '#/ui/icon-button.tsx'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import { Icon } from '#/ui/icon.tsx'
+  8 | import { Menu, MenuItem, MenuLink } from '#/ui/menu.tsx'
+  9 | import { useToast } from '#/ui/toast.tsx'
+
+The export iconButtonParts was not found in module [project]/src/ui/icon-button.tsx [app-client] (ecmascript).
+Did you mean to import iconButtonStyles?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/features/posts/components/post-actions.tsx [Client Component Browser]
+    ./src/features/posts/components/post-card.tsx [Client Component Browser]
+    ./src/features/posts/components/feed.tsx [Client Component Browser]
+    ./src/features/posts/components/feed.tsx [Server Component]
+    ./src/features/posts/components/feed-section.tsx [Server Component]
+    ./src/app/(app)/home/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/features/posts/components/post-actions.tsx [Client Component SSR]
+    ./src/features/posts/components/post-card.tsx [Client Component SSR]
+    ./src/features/posts/components/feed.tsx [Client Component SSR]
+    ./src/features/posts/components/feed.tsx [Server Component]
+    ./src/features/posts/components/feed-section.tsx [Server Component]
+    ./src/app/(app)/home/page.tsx [Server Component] 
+[browser] ./src/features/posts/components/post-actions.tsx:6:1
+Error: Export iconButtonParts doesn't exist in target module
+  4 | import { useRouter } from 'next/navigation'
+  5 | import { startTransition, useOptimistic, useState } from 'react'
+> 6 | import { IconButton, iconButtonParts, iconButtonStyles } from '#/ui/icon-button.tsx'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import { Icon } from '#/ui/icon.tsx'
+  8 | import { Menu, MenuItem, MenuLink } from '#/ui/menu.tsx'
+  9 | import { useToast } from '#/ui/toast.tsx'
+
+The export iconButtonParts was not found in module [project]/src/ui/icon-button.tsx [app-ssr] (ecmascript).
+Did you mean to import iconButtonStyles?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/features/posts/components/post-actions.tsx [Client Component Browser]
+    ./src/features/posts/components/post-card.tsx [Client Component Browser]
+    ./src/features/posts/components/feed.tsx [Client Component Browser]
+    ./src/features/posts/components/feed.tsx [Server Component]
+    ./src/features/posts/components/feed-section.tsx [Server Component]
+    ./src/app/(app)/home/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/features/posts/components/post-actions.tsx [Client Component SSR]
+    ./src/features/posts/components/post-card.tsx [Client Component SSR]
+    ./src/features/posts/components/feed.tsx [Client Component SSR]
+    ./src/features/posts/components/feed.tsx [Server Component]
+    ./src/features/posts/components/feed-section.tsx [Server Component]
+    ./src/app/(app)/home/page.tsx [Server Component] 
+[browser] ./src/features/posts/components/post-actions.tsx:6:1
+Error: Export iconButtonParts doesn't exist in target module
+  4 | import { useRouter } from 'next/navigation'
+  5 | import { startTransition, useOptimistic, useState } from 'react'
+> 6 | import { IconButton, iconButtonParts, iconButtonStyles } from '#/ui/icon-button.tsx'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import { Icon } from '#/ui/icon.tsx'
+  8 | import { Menu, MenuItem, MenuLink } from '#/ui/menu.tsx'
+  9 | import { useToast } from '#/ui/toast.tsx'
+
+The export iconButtonParts was not found in module [project]/src/ui/icon-button.tsx [app-client] (ecmascript).
+Did you mean to import iconButtonStyles?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/features/posts/components/post-actions.tsx [Client Component Browser]
+    ./src/features/posts/components/post-card.tsx [Client Component Browser]
+    ./src/features/posts/components/feed.tsx [Client Component Browser]
+    ./src/features/posts/components/feed.tsx [Server Component]
+    ./src/features/posts/components/feed-section.tsx [Server Component]
+    ./src/app/(app)/home/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/features/posts/components/post-actions.tsx [Client Component SSR]
+    ./src/features/posts/components/post-card.tsx [Client Component SSR]
+    ./src/features/posts/components/feed.tsx [Client Component SSR]
+    ./src/features/posts/components/feed.tsx [Server Component]
+    ./src/features/posts/components/feed-section.tsx [Server Component]
+    ./src/app/(app)/home/page.tsx [Server Component] 
+[browser] ./src/features/posts/components/post-actions.tsx:6:1
+Error: Export iconButtonParts doesn't exist in target module
+  4 | import { useRouter } from 'next/navigation'
+  5 | import { startTransition, useOptimistic, useState } from 'react'
+> 6 | import { IconButton, iconButtonParts, iconButtonStyles } from '#/ui/icon-button.tsx'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import { Icon } from '#/ui/icon.tsx'
+  8 | import { Menu, MenuItem, MenuLink } from '#/ui/menu.tsx'
+  9 | import { useToast } from '#/ui/toast.tsx'
+
+The export iconButtonParts was not found in module [project]/src/ui/icon-button.tsx [app-ssr] (ecmascript).
+Did you mean to import iconButtonStyles?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/features/posts/components/post-actions.tsx [Client Component Browser]
+    ./src/features/posts/components/post-card.tsx [Client Component Browser]
+    ./src/features/posts/components/feed.tsx [Client Component Browser]
+    ./src/features/posts/components/feed.tsx [Server Component]
+    ./src/features/posts/components/feed-section.tsx [Server Component]
+    ./src/app/(app)/home/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/features/posts/components/post-actions.tsx [Client Component SSR]
+    ./src/features/posts/components/post-card.tsx [Client Component SSR]
+    ./src/features/posts/components/feed.tsx [Client Component SSR]
+    ./src/features/posts/components/feed.tsx [Server Component]
+    ./src/features/posts/components/feed-section.tsx [Server Component]
+    ./src/app/(app)/home/page.tsx [Server Component] 
+ GET /api/events 500 in 477ms (next.js: 400ms, application-code: 76ms)
+[browser] ./src/features/posts/components/post-actions.tsx:6:1
+Error: Export iconButtonParts doesn't exist in target module
+  4 | import { useRouter } from 'next/navigation'
+  5 | import { startTransition, useOptimistic, useState } from 'react'
+> 6 | import { IconButton, iconButtonParts, iconButtonStyles } from '#/ui/icon-button.tsx'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import { Icon } from '#/ui/icon.tsx'
+  8 | import { Menu, MenuItem, MenuLink } from '#/ui/menu.tsx'
+  9 | import { useToast } from '#/ui/toast.tsx'
+
+The export iconButtonParts was not found in module [project]/src/ui/icon-button.tsx [app-client] (ecmascript).
+Did you mean to import iconButtonStyles?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/features/posts/components/post-actions.tsx [Client Component Browser]
+    ./src/features/posts/components/post-card.tsx [Client Component Browser]
+    ./src/features/posts/components/feed.tsx [Client Component Browser]
+    ./src/features/posts/components/feed.tsx [Server Component]
+    ./src/features/posts/components/feed-section.tsx [Server Component]
+    ./src/app/(app)/home/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/features/posts/components/post-actions.tsx [Client Component SSR]
+    ./src/features/posts/components/post-card.tsx [Client Component SSR]
+    ./src/features/posts/components/feed.tsx [Client Component SSR]
+    ./src/features/posts/components/feed.tsx [Server Component]
+    ./src/features/posts/components/feed-section.tsx [Server Component]
+    ./src/app/(app)/home/page.tsx [Server Component] 
+[browser] ./src/features/posts/components/post-actions.tsx:6:1
+Error: Export iconButtonParts doesn't exist in target module
+  4 | import { useRouter } from 'next/navigation'
+  5 | import { startTransition, useOptimistic, useState } from 'react'
+> 6 | import { IconButton, iconButtonParts, iconButtonStyles } from '#/ui/icon-button.tsx'
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import { Icon } from '#/ui/icon.tsx'
+  8 | import { Menu, MenuItem, MenuLink } from '#/ui/menu.tsx'
+  9 | import { useToast } from '#/ui/toast.tsx'
+
+The export iconButtonParts was not found in module [project]/src/ui/icon-button.tsx [app-ssr] (ecmascript).
+Did you mean to import iconButtonStyles?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+Import traces:
+  Client Component Browser:
+    ./src/features/posts/components/post-actions.tsx [Client Component Browser]
+    ./src/features/posts/components/post-card.tsx [Client Component Browser]
+    ./src/features/posts/components/feed.tsx [Client Component Browser]
+    ./src/features/posts/components/feed.tsx [Server Component]
+    ./src/features/posts/components/feed-section.tsx [Server Component]
+    ./src/app/(app)/home/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/features/posts/components/post-actions.tsx [Client Component SSR]
+    ./src/features/posts/components/post-card.tsx [Client Component SSR]
+    ./src/features/posts/components/feed.tsx [Client Component SSR]
+    ./src/features/posts/components/feed.tsx [Server Component]
+    ./src/features/posts/components/feed-section.tsx [Server Component]
+    ./src/app/(app)/home/page.tsx [Server Component] 
+TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException: TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException:  TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+ GET /home/following 200 in 54ms (next.js: 7ms, proxy.ts: 2ms, application-code: 45ms)
+TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException: TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException:  TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException: TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException:  TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException: TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException:  TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+ GET /home/following 200 in 122ms (next.js: 6ms, proxy.ts: 3ms, application-code: 114ms)
+ GET /home/following 200 in 52ms (next.js: 13ms, proxy.ts: 2ms, application-code: 37ms)
+TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException: TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException:  TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+✓ Compiled in 61ms
+ GET /home/following 200 in 134ms (next.js: 13ms, proxy.ts: 2ms, application-code: 119ms)
+ GET /home/following 200 in 92ms (next.js: 27ms, proxy.ts: 4ms, application-code: 61ms)
+TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException: TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException:  TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+ GET /home/following 200 in 41ms (next.js: 7ms, proxy.ts: 1.6ms, application-code: 32ms)
+ GET /login 200 in 31ms (next.js: 5ms, proxy.ts: 2.0ms, application-code: 24ms)
+ GET /home/following 200 in 167ms (next.js: 2ms, proxy.ts: 2ms, application-code: 163ms)
+TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException: TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException:  TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException: TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException:  TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException: TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException:  TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException: TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException:  TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException: TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException:  TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException: TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException:  TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException: TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException:  TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException: TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException:  TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException: TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException:  TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException: TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException:  TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException: TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException:  TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException: TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException:  TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+✓ Compiled in 115ms
+✓ Compiled in 3ms
+ GET /api/events 200 in 3.9min (next.js: 1.6ms, application-code: 3.9min)
+ GET /home/following 200 in 172ms (next.js: 7ms, proxy.ts: 4ms, application-code: 160ms)
+TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException: TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException:  TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+✓ Compiled in 7ms
+✓ Compiled in 11ms
+TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException: TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+⨯ uncaughtException:  TypeError: Invalid state: Controller is already closed
+    at send (src/app/api/events/route.ts:40:50)
+    at Timeout._onTimeout (src/app/api/events/route.ts:46:43)
+  38 |   const stream = new ReadableStream<Uint8Array>({
+  39 |     start(controller) {
+> 40 |       const send = (chunk: string) => controller.enqueue(encoder.encode(chunk))
+     |                                                  ^
+  41 |       send('retry: 2000\n\n')
+  42 |       const unsubscribe = subscribe((event) => {
+  43 |         const out = route(event) {
+  code: 'ERR_INVALID_STATE'
+}
+✓ Compiled in 9ms

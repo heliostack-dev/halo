@@ -1,17 +1,12 @@
+@layer reset, tokens, base, components, utilities;
 @layer components {
   .trigger { display: inline-flex; align-items: center; border-radius: var(--radius-full); }
-  .iconBubble {
-    display: grid; place-items: center;
-    width: var(--size-control-sm); height: var(--size-control-sm);
-    border-radius: var(--radius-full);
-    color: var(--muted-foreground);
-    transition: background-color var(--duration-fast) var(--ease-standard);
-  }
-  :hover > .iconBubble { background: var(--primary-subtle); color: var(--primary); }
+  .more { color: var(--muted-foreground); }
+  .more:hover, .more:focus-visible { color: var(--primary); background: color-mix(in oklch, var(--primary) 12%, transparent); }
 
   .menu {
-    min-width: 14rem;
-    padding: var(--space-1) 0;
+    min-width: 13rem;
+    padding: var(--space-1);
     border-radius: var(--radius-lg);
     background: var(--popover);
     color: var(--popover-foreground);
@@ -38,12 +33,18 @@
     align-items: center;
     gap: var(--space-3);
     width: 100%;
-    padding: var(--space-3) var(--space-4);
-    font-weight: var(--weight-semibold);
+    height: var(--size-control-md);
+    padding: 0 var(--space-3);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
     text-align: start;
+    color: var(--popover-foreground);
+    transition: background-color var(--duration-fast) var(--ease-standard);
   }
   .item:hover, .item:focus-visible { background: var(--accent); outline: none; }
+  .item svg { color: var(--muted-foreground); }
   .item[aria-disabled='true'] { opacity: 0.5; cursor: not-allowed; }
-  .danger { color: var(--destructive); }
-  .separator { border: 0; border-top: 1px solid var(--border); margin: var(--space-1) 0; }
+  .danger, .danger svg { color: var(--destructive); }
+  .separator { border: 0; border-top: 1px solid var(--border); margin: var(--space-1) calc(var(--space-1) * -1); }
 }

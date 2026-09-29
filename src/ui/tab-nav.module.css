@@ -1,25 +1,28 @@
+@layer reset, tokens, base, components, utilities;
 @layer components {
-  .nav { display: flex; border-bottom: 1px solid var(--border); background: color-mix(in oklch, var(--background) 85%, transparent); backdrop-filter: blur(12px); }
-  .sticky { position: sticky; top: var(--_sticky-offset, 0); z-index: var(--z-sticky); }
+  .nav { display: flex; }
+  .sticky { position: sticky; top: 0; z-index: var(--z-sticky); background: color-mix(in oklch, var(--background) 72%, transparent); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
   .tab {
+    position: relative;
     flex: 1;
-    display: flex;
-    justify-content: center;
-    padding: 0 var(--space-4);
+    display: grid;
+    place-items: center;
+    height: var(--layout-tabs);
     color: var(--muted-foreground);
-    font-weight: var(--weight-medium);
-    transition: background-color var(--duration-fast) var(--ease-standard);
+    font-size: var(--text-sm);
+    line-height: var(--leading-sm);
+    font-weight: var(--weight-semibold);
+    transition: background-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard);
   }
-  .tab:hover { background: var(--accent); }
-  .label { position: relative; padding: var(--space-4) 0; }
-  .tab[aria-current='page'] { color: var(--foreground); font-weight: var(--weight-bold); }
-  .tab[aria-current='page'] .label::after {
+  .tab:hover { background: var(--accent); color: var(--foreground); }
+  .tab[aria-current='page'] { color: var(--foreground); }
+  .tab[aria-current='page']::after {
     content: '';
     position: absolute;
-    inset: auto 0 0;
-    height: 4px;
-    border-radius: var(--radius-full);
-    background: var(--primary);
-    view-transition-name: tab-indicator;
+    inset: auto var(--space-8) 0;
+    height: 3px;
+    border-radius: var(--radius-full) var(--radius-full) 0 0;
+    background: var(--foreground);
   }
+  .label { position: relative; }
 }

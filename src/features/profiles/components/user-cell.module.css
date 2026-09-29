@@ -1,0 +1,15 @@
+@layer reset, tokens, base, components, utilities;
+@layer components {
+  .cell { position: relative; display: grid; grid-template-columns: var(--size-avatar-md) minmax(0, 1fr); column-gap: var(--space-3); padding: var(--space-3) var(--space-4); transition: background-color var(--duration-fast) var(--ease-standard); }
+  .cell:hover { background: var(--accent); }
+  .overlay { position: absolute; inset: 0; }
+  .text { display: grid; gap: var(--space-1); min-width: 0; }
+  .top { display: flex; align-items: center; gap: var(--space-3); min-height: var(--size-avatar-md); }
+  .names { flex: 1; min-width: 0; display: grid; }
+  .name { display: flex; align-items: center; gap: var(--space-1); font-size: var(--text-sm); line-height: var(--leading-sm); font-weight: var(--weight-semibold); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .verified { color: var(--primary); }
+  .handle { display: flex; align-items: center; gap: var(--space-2); min-width: 0; overflow: hidden; color: var(--muted-foreground); font-family: var(--font-mono); font-size: var(--text-xs); line-height: var(--leading-xs); }
+  .chip { flex: none; white-space: nowrap; font-family: var(--font-sans); padding: 0 var(--space-1); border-radius: var(--radius-sm); background: var(--muted); }
+  .action { position: relative; z-index: 1; }
+  .bio { position: relative; font-size: var(--text-sm); line-height: var(--leading-sm); }
+}

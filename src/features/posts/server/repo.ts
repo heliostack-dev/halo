@@ -80,14 +80,21 @@ function page(ids: string[], limit: number): Page<string> {
 
 // ---------------------------------------------------------------- feeds (return item ids)
 
-/** Chronological home timeline: the viewer and everyone they follow, including reposts. */
+/**
+ * Chronological home timeline: the viewer and everyone they follow, including reposts.
+ * A post reposted by several followees appears once, at its most recent activity.
+ */
 export async function followingTimeline(db: Db, viewerId: string, cursor: string | undefined, limit = 20) {
   const rows = await db<{ id: string }[]>`
-    select p.id::text from posts p
-    where p.author_id in (select followee_id from follows where follower_id = ${viewerId} union all select ${viewerId}::bigint)
-      and p.reply_to_id is null
-      ${cursor ? db`and p.id < ${cursor}` : db``}
-    order by p.id desc limit ${limit + 1}`
+    select item_id::text as id from (
+      select distinct on (coalesce(p.repost_of_id, p.id)) p.id as item_id
+      from posts p
+      where p.author_id in (select followee_id from follows where follower_id = ${viewerId} union all select ${viewerId}::bigint)
+        and p.reply_to_id is null
+        ${cursor ? db`and p.id < ${cursor}` : db``}
+      order by coalesce(p.repost_of_id, p.id), p.id desc
+    ) latest
+    order by item_id desc limit ${limit + 1}` // order by the bigint: `order by id` would sort the ::text alias
   return page(rows.map((r) => r.id), limit)
 }
 

@@ -73,6 +73,14 @@ test('following timeline includes followed authors and their reposts, paginated 
   const views = await hydrate(db.sql, me.id, first.items)
   assert.equal(views[0]?.id, s.id, 'the repost is the newest item and resolves to the original')
   assert.equal(views[0]?.repostedBy?.handle, friend.handle)
+
+  // A second followee reposting the same post doesn't duplicate it.
+  const other = await makeUser(db.sql)
+  await db.sql`insert into follows (follower_id, followee_id) values (${me.id}, ${other.id})`
+  await setRepost(db.sql, other.id, s.id, true)
+  const all = await hydrate(db.sql, me.id, (await followingTimeline(db.sql, me.id, undefined, 50)).items)
+  assert.equal(all.filter((v) => v.id === s.id).length, 1)
+  assert.equal(all[0]?.repostedBy?.handle, other.handle)
 })
 
 test('quotes, hashtags, mentions and search', async () => {

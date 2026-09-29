@@ -1,0 +1,29 @@
+@layer reset, tokens, base, components, utilities;
+@layer components {
+  .composer { display: grid; grid-template-columns: var(--size-avatar-md) minmax(0, 1fr); column-gap: var(--space-3); padding: var(--space-4) var(--space-5); }
+  .inline { border-bottom: 1px solid var(--border); }
+  .main { display: grid; gap: var(--space-3); min-width: 0; }
+  .input {
+    width: 100%;
+    min-height: calc(var(--leading-lg) * 2 + var(--space-2));
+    padding: var(--space-2) 0;
+    border: 0;
+    background: transparent;
+    font-size: var(--text-lg);
+    line-height: var(--leading-lg);
+    resize: none;
+    field-sizing: content;
+  }
+  .input:focus { outline: none; }
+  .input::placeholder { color: var(--muted-foreground); }
+  .toolbar { display: flex; align-items: center; justify-content: flex-end; gap: var(--space-3); }
+  .error { color: var(--destructive); font-size: var(--text-sm); line-height: var(--leading-sm); }
+  .meter { position: relative; display: inline-grid; place-items: center; }
+  .meter svg { rotate: -90deg; }
+  .track { fill: none; stroke: var(--border); stroke-width: 2.5; }
+  .progress { fill: none; stroke: var(--primary); stroke-width: 2.5; stroke-linecap: round; transition: stroke-dasharray var(--duration-fast); }
+  .warn .progress { stroke: var(--warning); }
+  .over .progress { stroke: var(--destructive); }
+  .remaining { position: absolute; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--muted-foreground); }
+  .over .remaining { color: var(--destructive); }
+}

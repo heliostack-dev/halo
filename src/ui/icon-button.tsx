@@ -3,35 +3,27 @@ import { cx } from './cx.ts'
 import { Icon, type IconName } from './icon.tsx'
 import styles from './icon-button.module.css'
 
+type Size = 'sm' | 'md' | 'lg'
+
 type IconButtonProps = Omit<ComponentProps<'button'>, 'children'> & {
   icon: IconName
-  /** Required: icon-only buttons need an accessible name. Also shown as a tooltip. */
+  /** Required: icon-only buttons need an accessible name. Also used as the native tooltip. */
   label: string
-  size?: 'sm' | 'md' | 'lg'
-  tone?: 'neutral' | 'primary' | 'like' | 'repost'
-  active?: boolean
-  filled?: boolean
-  count?: number | string
+  size?: Size
+  variant?: 'ghost' | 'outline'
 }
 
-export function iconButtonStyles({ size = 'md', tone = 'neutral', active, className }: Pick<IconButtonProps, 'size' | 'tone' | 'active' | 'className'> = {}) {
-  return cx(styles.root, styles[size], styles[tone], active && styles.active, className)
+const ICON_SIZE = { sm: 16, md: 18, lg: 20 } as const
+
+/** Circular icon-only button for chrome: close, back, overflow menus, toolbar actions. */
+export function iconButtonStyles({ size = 'md', variant = 'ghost', className }: { size?: Size; variant?: 'ghost' | 'outline'; className?: string } = {}) {
+  return cx(styles.root, styles[size], styles[variant], className)
 }
 
-export function IconButton({ icon, label, size = 'md', tone = 'neutral', active, filled, count, className, type = 'button', ...rest }: IconButtonProps) {
+export function IconButton({ icon, label, size = 'md', variant = 'ghost', className, type = 'button', ...rest }: IconButtonProps) {
   return (
-    <button
-      type={type}
-      aria-label={count === undefined ? label : `${label} (${count})`}
-      title={label}
-      aria-pressed={active === undefined ? undefined : active}
-      className={iconButtonStyles({ size, tone, active, className })}
-      {...rest}
-    >
-      <span className={styles.bubble}>
-        <Icon name={icon} size={size === 'lg' ? 24 : size === 'sm' ? 16 : 18} filled={filled ?? active} />
-      </span>
-      {count !== undefined ? <span className={styles.count}>{count}</span> : null}
+    <button type={type} aria-label={label} title={label} className={iconButtonStyles({ size, variant, className })} {...rest}>
+      <Icon name={icon} size={ICON_SIZE[size]} />
     </button>
   )
 }

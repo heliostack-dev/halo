@@ -2,13 +2,26 @@
   "$comment": "Design-system decisions. Written by heliostack ds-init; read by ds-component and every UI task.",
   "version": 1,
   "strategy": "native",
-  "themes": ["helios", "tidal", "nocturne", "verdant", "ember", "graphite"],
+  "themes": [
+    "halo",
+    "tidal",
+    "nocturne",
+    "verdant",
+    "ember",
+    "helios",
+    "graphite"
+  ],
   "colorScheme": "system",
-  "radius": "lg",
+  "radius": "md",
   "density": "comfortable",
-  "font": { "sans": "Geist", "mono": "Geist_Mono" },
+  "font": {
+    "sans": "Geist",
+    "mono": "Geist_Mono"
+  },
   "icons": "sprite",
-  "themeDirs": ["design/themes"],
+  "themeDirs": [
+    "design/themes"
+  ],
   "paths": {
     "tokens": "src/ui/tokens.css",
     "base": "src/ui/base.css",

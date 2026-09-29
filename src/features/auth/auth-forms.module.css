@@ -1,0 +1,8 @@
+@layer reset, tokens, base, components, utilities;
+@layer components {
+  .form { display: grid; gap: var(--space-4); }
+  .formError { padding: var(--space-3); border-radius: var(--radius-sm); background: color-mix(in oklch, var(--destructive) 12%, transparent); color: var(--destructive); }
+  .alt { color: var(--muted-foreground); }
+  .alt a { color: var(--primary); }
+  .alt a:hover { text-decoration: underline; }
+}

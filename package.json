@@ -35,7 +35,7 @@
     "db:reset": "node --env-file-if-exists=.env.local scripts/migrate.ts --reset && pnpm db:seed",
     "ds:generate": "node design/theme.mjs generate",
     "ds:check": "node design/theme.mjs check && node design/check-tokens.mjs",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "next typegen && tsc --noEmit",
     "test": "node --test \"src/**/*.test.ts\"",
     "e2e": "node --test \"e2e/**/*.test.ts\"",
     "verify": "pnpm typecheck && pnpm ds:check && pnpm test && pnpm build"

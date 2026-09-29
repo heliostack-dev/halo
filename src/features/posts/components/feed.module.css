@@ -1,0 +1,6 @@
+@layer reset, tokens, base, components, utilities;
+@layer components {
+  .feed { display: flex; flex-direction: column; }
+  .more { display: grid; place-items: center; min-height: var(--space-16); color: var(--primary); }
+  .end { padding: var(--space-10) 0; text-align: center; color: var(--muted-foreground); font-size: var(--text-sm); }
+}

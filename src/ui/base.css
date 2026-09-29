@@ -1,5 +1,5 @@
-/* Heliostack native base layer. Layer order is declared once, here. */
 @layer reset, tokens, base, components, utilities;
+/* Heliostack native base layer. Every CSS file repeats the layer order on line 1 (see ds-component). */
 
 @layer reset {
   *, *::before, *::after { box-sizing: border-box; }

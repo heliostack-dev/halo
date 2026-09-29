@@ -1,0 +1,8 @@
+@layer reset, tokens, base, components, utilities;
+@layer components {
+  .following { min-width: 7.5rem; }
+  .hover { display: none; }
+  .following:hover { color: var(--destructive); border-color: color-mix(in oklch, var(--destructive) 50%, transparent); --_hover: color-mix(in oklch, var(--destructive) 10%, transparent); }
+  .following:hover .idle { display: none; }
+  .following:hover .hover { display: inline; }
+}

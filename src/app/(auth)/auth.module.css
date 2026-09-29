@@ -1,0 +1,7 @@
+@layer reset, tokens, base, components, utilities;
+@layer components {
+  .page { min-height: 100dvh; display: grid; place-content: center; gap: var(--space-6); padding: var(--space-6); justify-items: center; }
+  .brand { color: var(--primary); }
+  .card { width: min(100vw - var(--space-12), 26rem); display: grid; gap: var(--space-6); }
+  .title { font-size: var(--text-3xl); line-height: var(--leading-3xl); }
+}

@@ -47,15 +47,11 @@ export function Menu({ label, icon = 'more', trigger, triggerClassName, align = 
         aria-label={label}
         aria-haspopup="menu"
         title={trigger ? undefined : label}
-        className={trigger ? cx(styles.trigger, triggerClassName) : iconButtonStyles({ className: triggerClassName })}
+        className={trigger ? cx(styles.trigger, triggerClassName) : iconButtonStyles({ size: 'sm', className: cx(styles.more, triggerClassName) })}
         style={{ anchorName: anchor } as React.CSSProperties}
         onClick={(event) => event.stopPropagation()}
       >
-        {trigger ?? (
-          <span className={styles.iconBubble}>
-            <Icon name={icon} size={18} />
-          </span>
-        )}
+        {trigger ?? <Icon name={icon} size={18} />}
       </button>
       <div
         ref={popover}
