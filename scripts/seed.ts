@@ -3,7 +3,7 @@
 // Every account's password is `halo-demo`. Sign in as @demo.
 import { createSql, type Sql } from '../src/server/sql.ts'
 import { hashPassword } from '../src/server/auth/password.ts'
-import { createPost, setLike, setRepost } from '../src/features/posts/server/repo.ts'
+import { createPost } from '../src/features/posts/server/repo.ts'
 
 let state = 0x2f6b3a1d
 const rand = () => ((state = (Math.imul(state ^ (state >>> 15), 0x2c1b3c6d) + 0x9e3779b9) >>> 0) / 2 ** 32)
@@ -146,14 +146,29 @@ async function seed(sql: Sql) {
     posts.push({ id: created.id, authorId })
   }
 
-  // Engagement, weighted towards recent posts.
+  // Engagement, weighted towards recent posts. Decided in memory, written in batches: one round
+  // trip per chunk instead of one transaction per like (seeding a remote database stays fast).
+  // Counters come from the triggers; notifications are derived in SQL afterwards.
+  const likes: { userId: string; postId: string }[] = []
+  const reposts: { authorId: string; repostOfId: string }[] = []
   for (const [i, post] of posts.entries()) {
     const heat = (i / posts.length) ** 2
     for (const userId of ids) {
-      if (userId !== post.authorId && chance(0.02 + heat * 0.18)) await setLike(sql, userId, post.id, true)
-      if (userId !== post.authorId && chance(0.004 + heat * 0.03)) await setRepost(sql, userId, post.id, true)
+      if (userId !== post.authorId && chance(0.02 + heat * 0.18)) likes.push({ userId, postId: post.id })
+      if (userId !== post.authorId && chance(0.004 + heat * 0.03)) reposts.push({ authorId: userId, repostOfId: post.id })
     }
   }
+  const chunks = <T,>(rows: T[], size = 500) => Array.from({ length: Math.ceil(rows.length / size) }, (_, i) => rows.slice(i * size, i * size + size))
+  for (const rows of chunks(likes)) await sql`insert into likes ${sql(rows)} on conflict do nothing`
+  for (const rows of chunks(reposts)) await sql`insert into posts ${sql(rows)} on conflict do nothing`
+  await sql`
+    insert into notifications (recipient_id, actor_id, kind, post_id)
+    select p.author_id, l.user_id, 'like', l.post_id from likes l join posts p on p.id = l.post_id
+    where p.author_id <> l.user_id
+    union all
+    select o.author_id, r.author_id, 'repost', o.id from posts r join posts o on o.id = r.repost_of_id
+    where o.author_id <> r.author_id
+    on conflict do nothing`
   await sql`update notifications set read_at = now() where created_at < now() - interval '1 day'`
 
   // A few DM conversations with the demo account.

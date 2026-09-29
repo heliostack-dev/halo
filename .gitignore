@@ -10,3 +10,6 @@ next-env.d.ts
 test-results
 .dev-db.log
 *.log
+.vercel
+.env*
+!.env.example
